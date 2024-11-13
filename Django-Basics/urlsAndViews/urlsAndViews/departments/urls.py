@@ -4,7 +4,7 @@ from urlsAndViews.departments import views
 
 urlpatterns = [
     path("", views.index, name="home"),
-    path("redirect-to-view/", views.redirect_to_view),
+    path("redirect-to-view/", views.redirect_to_view, name="redirect-view"),
     path("softuni/", views.redirect_to_softuni),
     path("numbers/", include([
         path("<int:pk>/", views.view_with_int_pk, name="numbers"),

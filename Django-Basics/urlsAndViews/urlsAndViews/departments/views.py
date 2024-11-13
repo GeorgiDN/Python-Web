@@ -1,13 +1,21 @@
 import json
 
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import HttpResponse, JsonResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 
 from urlsAndViews.departments.models import Department
+from django.urls import reverse, reverse_lazy
 
 
 def index(request):
-    return HttpResponse("<h1>Hello world!</h1>")
+    # url = reverse("redirect-view")
+    # return HttpResponse(f"<h1>{url}</h1>")
+
+    # url_lazy = reverse_lazy("redirect-view")
+    # return HttpResponse(f"<h1>{url_lazy}</h1>")
+
+    return HttpResponse(f"<h1>Function Reversed Lazy</h1>")
+    # return HttpResponse("<h1>Hello world!</h1>")
 
 
 def view_with_name(request, variable):
@@ -28,12 +36,17 @@ def view_with_slug(request, pk, slug):
     # option 1
     # department = Department.objects.filter(pk=pk, slug=slug)
     #
+    # Error
     # if not department:
     #     raise Http404
     # return HttpResponse(f"<h1>Department from slug: {department.first()}</h1>")
 
     department = get_object_or_404(Department, pk=pk, slug=slug)
-    return HttpResponse(f"<h1>Department from slug: {department}</h1>")
+
+    # raise Http404
+    # return HttpResponseNotFound(status=404)
+
+    # return HttpResponse(f"<h1>Department from slug: {department}</h1>")
 
 
 def show_archive(request, archive_year):
