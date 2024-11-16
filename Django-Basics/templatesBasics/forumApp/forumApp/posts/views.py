@@ -38,6 +38,20 @@ def add_post(request):
     return render(request, "posts/add-post.html", context)
 
 
+def edit_post(request, pk: int):
+    return HttpResponse()
+
+
+def details_page(request, pk: int):
+    post = Post.objects.get(pk=pk)
+
+    context = {
+        "post": post
+    }
+
+    return render(request, "posts/details-post.html", context)
+
+
 def delete_post(request, pk: int):
     post = Post.objects.get(pk=pk)
     form = PostDeleteForm(instance=post)
