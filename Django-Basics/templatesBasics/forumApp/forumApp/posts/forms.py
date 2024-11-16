@@ -1,38 +1,77 @@
 from django import forms
+from forumApp.posts.choises import LanguageChoice
+from forumApp.posts.models import Post
 
 
-class PersonForm(forms.Form):
-    STATUS_CHOICE = (
-        (1, "Draft"),
-        (2, "Published"),
-        (3, "Archived"),
-    )
+class PostBaseForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = "__all__"
+        # exclude = ["title"]
 
-    person_name = forms.CharField(
-        label="Person Name",
-        widget=forms.TextInput(attrs={"placeholder": "Search", "class": "blue-bg"}),
-        # initial="Ivan",
-        max_length=10,
-        error_messages={
-            "required": "Please enter a value",
-        },
-        required=True
-    )
+        widgets = {
+            "title": forms.NumberInput,
+        }
 
-    age = forms.IntegerField()
-    is_lecturer = forms.BooleanField()
+        labels = {
+            "title": "Title label",
+        }
 
-    # status = forms.IntegerField(
-    #     widget=forms.Select(choices=STATUS_CHOICE)
-    # )
+        help_texts = {
+            "title": "This is the title",
+        }
 
-    # status = forms.ChoiceField(
-    #     widget=forms.RadioSelect,
-    #     choices=STATUS_CHOICE,
-    # )
+# class PostForm(forms.ModelForm):
+#     title = forms.CharField(
+#         max_length=100,
+#     )
+#     content = forms.CharField(
+#         widget=forms.Textarea,
+#     )
+#     author = forms.CharField(
+#         max_length=30,
+#     )
+#     created_at = forms.DateField()
+#     languages = forms.ChoiceField(
+#         choices=LanguageChoice.choices,
+#     )
 
-    status = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-        choices=STATUS_CHOICE,
-    )
+
+
+
+
+# class PersonForm(forms.Form):
+#     STATUS_CHOICE = (
+#         (1, "Draft"),
+#         (2, "Published"),
+#         (3, "Archived"),
+#     )
+#
+#     person_name = forms.CharField(
+#         label="Person Name",
+#         widget=forms.TextInput(attrs={"placeholder": "Search", "class": "blue-bg"}),
+#         # initial="Ivan",
+#         max_length=10,
+#         error_messages={
+#             "required": "Please enter a value",
+#         },
+#         required=True
+#     )
+#
+#     age = forms.IntegerField()
+#     is_lecturer = forms.BooleanField()
+#
+#     # status = forms.IntegerField(
+#     #     widget=forms.Select(choices=STATUS_CHOICE)
+#     # )
+#
+#     # status = forms.ChoiceField(
+#     #     widget=forms.RadioSelect,
+#     #     choices=STATUS_CHOICE,
+#     # )
+#
+#     status = forms.MultipleChoiceField(
+#         widget=forms.CheckboxSelectMultiple,
+#         choices=STATUS_CHOICE,
+#     )
 

@@ -1,55 +1,39 @@
 from datetime import datetime
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from forumApp.posts.forms import PersonForm
+from forumApp.posts.forms import PostBaseForm
+from forumApp.posts.models import Post
 
 
 def index(request):
 
-    form = PersonForm(request.POST or None)
-
-    if request.method == "POST":
-        print(request.POST["person_name"])
-
-    if form.is_valid():
-        print(form.cleaned_data["person_name"])
-
     context = {
-        "my_form": form,
+        "my_form": "",
     }
-
-    # print(request.POST["person_name"])
-
-    if form.is_valid():
-        pass
 
     return render(request, "base.html", context)
 
 
 def dashboard(request):
     context = {
-        "posts": [
-            {
-                "title": "How to create django project",
-                "author": "Diyan",
-                "content": "**Way** to create project",
-                "created_at": datetime.now(),
-            },
-            {
-                "title": "How to create django project 1",
-                "author": "",
-                "content": "###Way to create project",
-                "created_at": datetime.now(),
-            },
-            {
-                "title": "How to create django project 2",
-                "author": "Diyan",
-                "content": "",
-                "created_at": datetime.now(),
-            },
-        ]
+        "posts": Post.objects.all(),
     }
 
     return render(request, "posts/dashboard.html", context)
+
+
+def add_post(request):
+    form = PostBaseForm(request.POST or None)
+
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("dash")
+
+    context = {
+        "form": form,
+    }
+
+    return render(request, "posts/add-post.html", context)
