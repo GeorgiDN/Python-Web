@@ -15,7 +15,7 @@
 <body>
     {% include "nav.html" %}    
     <div class="container">
-    
+        {% include "posts/search-form.html" %}
         <div class="posts">
             {% for post in posts %}
                 <a id="post-url" href="{% url 'details-post' post.pk %}">
