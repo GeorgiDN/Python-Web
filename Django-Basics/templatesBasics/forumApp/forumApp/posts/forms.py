@@ -9,9 +9,9 @@ class PostBaseForm(forms.ModelForm):
         fields = "__all__"
         # exclude = ["title"]
 
-        widgets = {
-            "title": forms.NumberInput,
-        }
+        # widgets = {
+        #     "title": forms.NumberInput,
+        # }
 
         labels = {
             "title": "Title label",
@@ -20,6 +20,24 @@ class PostBaseForm(forms.ModelForm):
         help_texts = {
             "title": "This is the title",
         }
+
+
+class PostCreateForm(PostBaseForm):
+    pass
+
+
+class PostEditForm(PostBaseForm):
+    pass
+
+
+class PostDeleteForm(PostBaseForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].disabled = True
+
+
 
 # class PostForm(forms.ModelForm):
 #     title = forms.CharField(
