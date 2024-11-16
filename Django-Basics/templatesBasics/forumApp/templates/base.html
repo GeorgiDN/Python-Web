@@ -14,8 +14,23 @@
 <body>
     {% include "nav.html" %}
     <h1>Hello User</h1>
-
+    <form action="/" method="post">
+        {{ my_form }}
+        {{ my_form.errors }}
+        {% csrf_token %}
+        <button>Submit</button>
+    </form>
     
+{#    <form action="/" method="get">#}
+{#        {% csrf_token %}#}
+{#        <input type="text" maxlength="10" name="person_name">#}
+{#        <input type="number" name="age">#}
+{#        <button>Submit</button>#}
+{#    </form>#}
+
+</body>
+    <script src='https://unpkg.com/akar-icons-fonts'></script>
+</html>
     
 {#    <form method="post">#}
 {#        {% csrf_token %}#}
@@ -56,6 +71,3 @@
 {#    {% include 'nav.html' %}#}
 {#    <h1>Hello User</h1>#}
 
-</body>
-    <script src='https://unpkg.com/akar-icons-fonts'></script>
-</html>

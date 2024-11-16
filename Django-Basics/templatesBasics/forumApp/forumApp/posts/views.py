@@ -3,24 +3,28 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from forumApp.posts.forms import PersonForm
+
 
 def index(request):
+
+    form = PersonForm(request.POST or None)
+
+    if request.method == "POST":
+        print(request.POST["person_name"])
+
+    if form.is_valid():
+        print(form.cleaned_data["person_name"])
+
     context = {
-        "current_time": datetime.now(),
-        "person": {
-            "age": 25,
-            "height": 190,
-        },
-        "ids": ["1234", "asd456", "qwe789"],
-        "some_text": "hello my name is Diyan, and I am developer",
-        "users": [
-            "pesho",
-            "ivan",
-            "stamat",
-            "maria",
-            "magdalena",
-        ]
+        "my_form": form,
     }
+
+    print(request.POST["person_name"])
+
+    if form.is_valid():
+        pass
+
 
     return render(request, "base.html", context)
 
