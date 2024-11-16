@@ -16,7 +16,9 @@
     <h1>Hello User</h1>
     <form action="/" method="post">
         {{ my_form }}
-        {{ my_form.errors }}
+{#        {{ my_form.person_name }}#}
+{#        {{ my_form.checkboxes }}#}
+{#        {{ my_form.errors }}#}
         {% csrf_token %}
         <button>Submit</button>
     </form>

@@ -20,11 +20,10 @@ def index(request):
         "my_form": form,
     }
 
-    print(request.POST["person_name"])
+    # print(request.POST["person_name"])
 
     if form.is_valid():
         pass
-
 
     return render(request, "base.html", context)
 
