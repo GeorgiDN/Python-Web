@@ -1,4 +1,6 @@
 {% load static %}
+{% load current_time %}
+{% load user_info %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,14 +17,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-    {% include "nav.html" %}
+    {% include "posts/common/nav.html" %}
+    <p>Last refresh: {% current_time %}</p>
     {% block content %}
     {% endblock %}
+    <div>
+        {% user_info request.user %}
+    </div>
 
 </body>
     <script src='https://unpkg.com/akar-icons-fonts'></script>
 </html>
-    
+
 
 
 

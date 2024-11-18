@@ -8,5 +8,6 @@ register = template.Library()
 
 
 @register.filter(name="markdown")
-def markdown_format(text):
+def markdown_format(text, my_param):
+    print("My param is ", my_param)
     return mark_safe(markdown.markdown(text))
