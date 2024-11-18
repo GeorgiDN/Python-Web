@@ -49,7 +49,23 @@ def add_post(request):
 
 
 def edit_post(request, pk: int):
-    return HttpResponse()
+    post = Post.objects.get(pk=pk)
+
+    if request.method == "POST":
+        form = PostCreateForm(request.POST, instance=post)
+
+        if form.is_valid():
+            form.save()
+            return redirect("dash")
+    else:
+        form = PostCreateForm(instance=post)
+
+    context = {
+        "form": form,
+        "post": post,
+    }
+
+    return render(request, "posts/edit-post.html", context)
 
 
 def details_page(request, pk: int):

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 style="color: dodgerblue">Edit Post</h1>
+<form action="{% url "edit-post" post.pk %}" method="post">
+    {{ form }}
+    {% csrf_token %}
+    <button class="button-9">Edit</button>
+</form>
+{% endblock %}
