@@ -14,7 +14,7 @@
                     {% if not post.content %}
                         {% lorem 3 p %}
                     {% else %}
-                        {{ post.content|markdown:"This is the param" }}
+                        {{ post.content }}
                     {% endif %}
 
                     <div class="post-meta">

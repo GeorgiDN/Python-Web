@@ -5,7 +5,7 @@ from forumApp.posts.validators import BadLanguageValidator
 
 
 class Post(models.Model):
-    TITLE_MAX_LENGTH = 100
+    TITLE_MAX_LENGTH = 10
 
     title = models.CharField(
         max_length=TITLE_MAX_LENGTH

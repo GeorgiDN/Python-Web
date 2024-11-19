@@ -1,5 +1,8 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from forumApp.posts.choises import LanguageChoice
+from forumApp.posts.mixins import DisabledFieldsMixin
 from forumApp.posts.models import Post
 
 
@@ -7,19 +10,59 @@ class PostBaseForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = "__all__"
+
+        error_messages = {
+            "title": {
+                "required": "This field is required.",
+                "max_length": f"This field is too long. Max length is {Post.TITLE_MAX_LENGTH}.",
+            },
+            "author": {
+                "required": "Please enter the author name.",
+            }
+        }
+
+    def clean_author(self):
+        author = self.cleaned_data.get("author")
+
+        if not author[0].isupper():
+            raise ValidationError("Author name must start with a capital letter!")
+        return author
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        title = cleaned_data.get("title")
+        content = cleaned_data.get("content")
+
+        if title and content and title in content:
+            raise ValidationError("The post title cannot be included in the post content")
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        post = super().save(commit=False)
+
+        post.title = post.title.capitalize()
+
+        if commit:
+            post.save()
+
+        return post
+
+
         # exclude = ["title"]
 
         # widgets = {
         #     "title": forms.NumberInput,
         # }
 
-        labels = {
-            "title": "Title label",
-        }
-
-        help_texts = {
-            "title": "This is the title",
-        }
+        # labels = {
+        #     "title": "Title label",
+        # }
+        #
+        # help_texts = {
+        #     "title": "This is the title",
+        # }
 
 
 class PostCreateForm(PostBaseForm):
@@ -30,19 +73,20 @@ class PostEditForm(PostBaseForm):
     pass
 
 
-class PostDeleteForm(PostBaseForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].disabled = True
+class PostDeleteForm(PostBaseForm, DisabledFieldsMixin):
+    disabled_fields = ("__all__", )
 
 
 class SearchForm(forms.Form):
     query = forms.CharField(
         label="",
         required=False,
-        max_length=100,
+        # required=True,
+        # error_messages={
+        #     "required": "please write something",
+        #     "max_length": "Max length is 10",
+        # },
+        max_length=10,
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Search for post...",
