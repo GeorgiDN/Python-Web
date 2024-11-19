@@ -1,18 +1,6 @@
-{% load static %}
+{% extends "posts/common/base.html" %}
 {% load markdown_extras %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum Posts</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-</head>
-<body>
+{% block content %}
     <div class="posts">  
         <div class="post">  
             <div class="header">  
@@ -34,8 +22,22 @@
             <div class="post-meta">  
                 <span>Posted by {{ post.author|default:"anonymous" }} on {{ post.created_at|date:"d-M-Y" }}</span>  
             </div>  
-        </div>  
+        </div>
+        <form method="post" class="form-inline">
+            {% csrf_token %}
+
+            {{ formset.management_form }}
+            <div class="input-group">
+                {% for form in formset %}
+                    <div class="form-row ml-4">
+                        {{ form.author }}
+                        <div class="input-group-append">
+                            {{ form.content }}
+                            <button class="btn bnt-primary ml-2" type="submit">Submit</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
     </div>
-</body>
-    <script src='https://unpkg.com/akar-icons-fonts'></script>
-</html>
+{% endblock %}
