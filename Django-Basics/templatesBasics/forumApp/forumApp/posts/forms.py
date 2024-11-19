@@ -95,6 +95,13 @@ class SearchForm(forms.Form):
         )
     )
 
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #
+    #     self.helper = FormHelper()
+    #     self.helper.form_method = 'get'
+    #     self.helper.form_class = 'form-inline'
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
