@@ -78,6 +78,8 @@ def details_page(request, pk: int):
     post = Post.objects.get(pk=pk)
     formset = CommentFormSet(request.POST or None)
 
+    comments = post.post_comments.all()
+
     if request.method == "POST":
         if formset.is_valid():
             for form in formset:
@@ -91,6 +93,7 @@ def details_page(request, pk: int):
     context = {
         "post": post,
         "formset": formset,
+        "comments": comments,
     }
 
     return render(request, "posts/details-post.html", context)

@@ -41,5 +41,19 @@
                 {% endfor %}
             </div>
         </form>
+
+        <h2>Comments</h2>
+        <div class="comment-section">
+            {% for comment in comments %}
+                <div class="media mb-3 comment-item">
+                    <img src="https://via.placeholder.com/50" class="mr-3 rounded-circle comment-avatar" alt="User avatar">
+                </div>
+                <div class="media-body comment-content">
+                    <h5 class="mt-0 comment-author">{{ comment.author }}</h5>
+                    <p class="comment-text">{{ comment.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
     </div>
 {% endblock %}
