@@ -1,11 +1,12 @@
 from datetime import datetime
+
 from django.forms import modelform_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import classonlymethod
 from django.views import View
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import TemplateView, RedirectView, ListView
 
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm, CommentFormSet
 from forumApp.posts.models import Post
@@ -74,22 +75,29 @@ class Index(BaseView):
 #     return render(request, "posts/common/index.html", context)
 
 
-def dashboard(request):
-    form = SearchForm(request.GET)
-    post = Post.objects.all()
+class DashboardView(ListView):
+    template_name = "posts/dashboard.html"
+    context_object_name = "posts"
+    queryset = Post.objects.all()
 
-    if request.method == "GET":
 
-        if form.is_valid():
-            query = form.cleaned_data["query"]
-            post = post.filter(title__icontains=query)
 
-    context = {
-        "posts": post,
-        "form": form,
-    }
-
-    return render(request, "posts/dashboard.html", context)
+# def dashboard(request):
+#     form = SearchForm(request.GET)
+#     post = Post.objects.all()
+#
+#     if request.method == "GET":
+#
+#         if form.is_valid():
+#             query = form.cleaned_data["query"]
+#             post = post.filter(title__icontains=query)
+#
+#     context = {
+#         "posts": post,
+#         "form": form,
+#     }
+#
+#     return render(request, "posts/dashboard.html", context)
 
 
 def add_post(request):
