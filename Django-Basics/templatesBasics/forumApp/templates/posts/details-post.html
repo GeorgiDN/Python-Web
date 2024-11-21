@@ -34,11 +34,11 @@
             {{ formset.management_form }}
             <div class="input-group">
                 {% for form in formset %}
-                    <div class="form-row ml-4">
+                    <div class="form-row ml-4 mt-2">
                         {{ form.author|as_crispy_field }}
                         <div class="input-group-append">
                             {{ form.content|as_crispy_field }}
-                            <button class="btn bnt-primary ml-2" type="submit">Submit</button>
+                            <button class="btn bnt-primary ml-2 mb-4" type="submit">Post</button>
                         </div>
                     </div>
                 {% endfor %}

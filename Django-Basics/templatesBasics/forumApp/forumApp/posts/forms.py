@@ -109,7 +109,7 @@ class CommentForm(forms.ModelForm):
         fields = ("author", "content")
 
         labels = {
-            "author": "",
+            "author": "Name",
             "label": "",
         }
 

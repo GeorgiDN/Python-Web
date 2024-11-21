@@ -1,10 +1,11 @@
 from django.urls import path, include
 
 from forumApp import posts
-from forumApp.posts.views import index, dashboard, add_post, delete_post, details_page, edit_post
+from forumApp.posts.views import Index, dashboard, add_post, delete_post, details_page, edit_post, IndexView, \
+    RedirectHomeView
 
 urlpatterns = [
-    path("", index, name="index"),
+    path("", IndexView.as_view(), name="index"),
     path("dashboard/", dashboard, name="dash"),
     path("add-post/", add_post, name="add-post"),
     path("<int:pk>/", include([
@@ -12,4 +13,5 @@ urlpatterns = [
         path("details-post/", details_page, name="details-post"),
         path("edit-post/", edit_post, name="edit-post"),
     ])),
+    path("redirect-home/", RedirectHomeView.as_view(), name="redirect-home"),
 ]

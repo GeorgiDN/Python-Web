@@ -1,24 +1,77 @@
 from datetime import datetime
-
 from django.forms import modelform_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.utils.decorators import classonlymethod
+from django.views import View
+from django.views.generic import TemplateView, RedirectView
 
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm, CommentFormSet
 from forumApp.posts.models import Post
 
 
-def index(request):
-    post_form = modelform_factory(
-        Post,
-        fields=("title", "content", "author", "languages"),
-    )
+class BaseView:
+    @classonlymethod
+    def as_view(cls):
 
-    context = {
-        "my_form": post_form,
+        def view(request, *args, **kwargs):
+            view_instance = cls()
+            return view_instance.dispatch(request, *args, **kwargs)
+
+        return view
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == "GET":
+            return self.get(request, *args, **kwargs)
+
+        elif request.method == "POST":
+            return self.post(request, *args, **kwargs)
+
+
+class IndexView(TemplateView):
+    template_name = "posts/common/index.html"
+    extra_context = {
+        "static_time": datetime.now()  # static way
     }
 
-    return render(request, "posts/common/index.html", context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # dynamic way
+        context["dynamic_time"] = datetime.now()
+        return context
+
+    def get_template_names(self):
+        if self.request.user.is_authenticated:
+            return ["posts/common/index_logged_in.html"]
+        else:
+            return ["posts/common/index.html"]
+
+
+class Index(BaseView):
+    def get(self, request, *args, **kwargs):
+        # post_form = modelform_factory(
+        #     Post,
+        #     fields=("title", "content", "author", "languages"),
+        # )
+
+        context = {
+            "dynamic_time": datetime.now(),
+        }
+
+        return render(request, "posts/common/index.html", context)
+
+
+# def index(request):
+#     post_form = modelform_factory(
+#         Post,
+#         fields=("title", "content", "author", "languages"),
+#     )
+#
+#     context = {
+#         "my_form": post_form,
+#     }
+#
+#     return render(request, "posts/common/index.html", context)
 
 
 def dashboard(request):
@@ -113,3 +166,10 @@ def delete_post(request, pk: int):
     }
 
     return render(request, "posts/delete-post.html", context)
+
+
+class RedirectHomeView(RedirectView):
+    url = reverse_lazy("index")
+
+    def get_redirect_url(self, *args, **kwargs):  # dynamic
+        pass
