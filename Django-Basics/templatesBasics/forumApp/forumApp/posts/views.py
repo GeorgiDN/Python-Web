@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import classonlymethod
 from django.views import View
-from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView
+from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView, DeleteView
 
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm, CommentFormSet, PostEditForm
 from forumApp.posts.models import Post
@@ -190,20 +190,32 @@ def details_page(request, pk: int):
     return render(request, "posts/details-post.html", context)
 
 
-def delete_post(request, pk: int):
-    post = Post.objects.get(pk=pk)
-    form = PostDeleteForm(instance=post)
+class DeletePostView(DeleteView):
+    model = Post
+    template_name = "posts/delete-post.html"
+    success_url = reverse_lazy("dash")
+    form_class = PostDeleteForm
 
-    if request.method == "POST":
-        post.delete()
-        return redirect("dash")
+    def get_initial(self):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        post = Post.objects.get(pk=pk)
+        return post.__dict__
 
-    context = {
-        "form": form,
-        "post": post,
-    }
 
-    return render(request, "posts/delete-post.html", context)
+# def delete_post(request, pk: int):
+#     post = Post.objects.get(pk=pk)
+#     form = PostDeleteForm(instance=post)
+#
+#     if request.method == "POST":
+#         post.delete()
+#         return redirect("dash")
+#
+#     context = {
+#         "form": form,
+#         "post": post,
+#     }
+#
+#     return render(request, "posts/delete-post.html", context)
 
 
 class RedirectHomeView(RedirectView):
