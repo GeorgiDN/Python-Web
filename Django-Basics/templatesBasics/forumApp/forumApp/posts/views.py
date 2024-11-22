@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import classonlymethod
 from django.views import View
-from django.views.generic import TemplateView, RedirectView, ListView
+from django.views.generic import TemplateView, RedirectView, ListView, FormView
 
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm, CommentFormSet
 from forumApp.posts.models import Post
@@ -75,11 +75,19 @@ class Index(BaseView):
 #     return render(request, "posts/common/index.html", context)
 
 
-class DashboardView(ListView):
+class DashboardView(ListView, FormView):
     template_name = "posts/dashboard.html"
     context_object_name = "posts"
+    form_class = SearchForm
+    success_url = reverse_lazy("dash")
     queryset = Post.objects.all()
 
+    def get_queryset(self):
+        if "query" in self.request.GET:
+            query = self.request.GET["query"]
+            self.queryset = self.queryset.filter(title__icontains=query)
+
+        return self.queryset
 
 
 # def dashboard(request):
