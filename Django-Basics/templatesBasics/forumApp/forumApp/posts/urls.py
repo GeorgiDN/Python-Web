@@ -1,7 +1,7 @@
 from django.urls import path, include
 
-from forumApp.posts.views import Index, delete_post, details_page, edit_post, IndexView, \
-    RedirectHomeView, DashboardView, AddPostView
+from forumApp.posts.views import Index, delete_post, details_page, IndexView, \
+    RedirectHomeView, DashboardView, AddPostView, EditPostView
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
@@ -10,7 +10,7 @@ urlpatterns = [
     path("<int:pk>/", include([
         path("delete-post/", delete_post, name="delete-post"),
         path("details-post/", details_page, name="details-post"),
-        path("edit-post/", edit_post, name="edit-post"),
+        path("edit-post/", EditPostView.as_view(), name="edit-post"),
     ])),
     path("redirect-home/", RedirectHomeView.as_view(), name="redirect-home"),
 ]

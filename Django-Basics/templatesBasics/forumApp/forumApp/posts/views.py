@@ -132,31 +132,37 @@ class AddPostView(CreateView):
 #     return render(request, "posts/add-post.html", context)
 
 
-# class EditPostView(UpdateView):
-#     model = Post
-#     form_class = PostEditForm
-#     template_name = "posts/edit-post.html"
-#     success_url = reverse_lazy("dash")
+class EditPostView(UpdateView):
+    model = Post
+    # form_class = PostEditForm
+    template_name = "posts/edit-post.html"
+    success_url = reverse_lazy("dash")
+
+    def get_form_class(self):
+        if self.request.user.is_superuser:
+            return modelform_factory(Post, fields=("title", "content", "author", "languages"))
+        else:
+            return modelform_factory(Post, fields=("content",))
 
 
-def edit_post(request, pk: int):
-    post = Post.objects.get(pk=pk)
-
-    if request.method == "POST":
-        form = PostCreateForm(request.POST, request.FILES, instance=post)
-
-        if form.is_valid():
-            form.save()
-            return redirect("dash")
-    else:
-        form = PostCreateForm(instance=post)
-
-    context = {
-        "form": form,
-        "post": post,
-    }
-
-    return render(request, "posts/edit-post.html", context)
+# def edit_post(request, pk: int):
+#     post = Post.objects.get(pk=pk)
+#
+#     if request.method == "POST":
+#         form = PostCreateForm(request.POST, request.FILES, instance=post)
+#
+#         if form.is_valid():
+#             form.save()
+#             return redirect("dash")
+#     else:
+#         form = PostCreateForm(instance=post)
+#
+#     context = {
+#         "form": form,
+#         "post": post,
+#     }
+#
+#     return render(request, "posts/edit-post.html", context)
 
 
 def details_page(request, pk: int):
