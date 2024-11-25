@@ -1,16 +1,14 @@
-from datetime import datetime
-
+from datetime import datetime, time
 from django.forms import modelform_factory
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
 from django.urls import reverse_lazy
 from django.utils.decorators import classonlymethod, method_decorator
-from django.views import View
 from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView, DeleteView, \
     DetailView
-
 from forumApp.decorators import measure_execution_time
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm, CommentFormSet, PostEditForm
+from forumApp.posts.mixins import TimeRestrictedMixin
 from forumApp.posts.models import Post
 
 
@@ -33,8 +31,10 @@ class BaseView:
 
 
 @method_decorator(measure_execution_time, name="dispatch")
-class IndexView(TemplateView):
+class IndexView(TimeRestrictedMixin, TemplateView):
     template_name = "posts/common/index.html"
+    # for test
+    end_time = time(222, 0)
     extra_context = {
         "static_time": datetime.now()  # static way
     }
@@ -258,3 +258,5 @@ class RedirectHomeView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):  # dynamic
         pass
+
+
