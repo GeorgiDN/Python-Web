@@ -4,11 +4,12 @@ from django.forms import modelform_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.utils.decorators import classonlymethod
+from django.utils.decorators import classonlymethod, method_decorator
 from django.views import View
 from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView, DeleteView, \
     DetailView
 
+from forumApp.decorators import measure_execution_time
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm, CommentFormSet, PostEditForm
 from forumApp.posts.models import Post
 
@@ -31,11 +32,16 @@ class BaseView:
             return self.post(request, *args, **kwargs)
 
 
+@method_decorator(measure_execution_time, name="dispatch")
 class IndexView(TemplateView):
     template_name = "posts/common/index.html"
     extra_context = {
         "static_time": datetime.now()  # static way
     }
+
+    # @measure_execution_time
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)  # dynamic way
@@ -80,7 +86,7 @@ class DashboardView(ListView, FormView):
     template_name = "posts/dashboard.html"
     context_object_name = "posts"
     form_class = SearchForm
-    paginate_by = 4
+    paginate_by = 2
     success_url = reverse_lazy("dash")
     model = Post
 
