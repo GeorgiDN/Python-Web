@@ -7,6 +7,7 @@ urlpatterns = [
     path("<int:id>/", include([
         path("edit", views.AlbumEditView.as_view(), name="album-edit"),
         path("details", views.AlbumDetailsView.as_view(), name="album-details"),
+        path("delete", views.AlbumDeleteView.as_view(), name="album-delete"),
 
     ]))
 ]
