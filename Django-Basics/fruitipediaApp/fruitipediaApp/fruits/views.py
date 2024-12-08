@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from fruitipediaApp.fruits.forms import CategoryCreateForm, FruitCreateForm
+from fruitipediaApp.fruits.forms import CategoryCreateForm, FruitCreateForm, FruitEditForm
 from fruitipediaApp.fruits.models import Fruit
 
 
@@ -47,7 +47,24 @@ def details_fruit(request, fruit_id):
 
 
 def edit_fruit(request, fruit_id):
-    return render(request, 'fruits/edit-fruit.html')
+    fruit = Fruit.objects.get(pk=fruit_id)
+
+    if request.method == 'GET':
+        form = FruitEditForm(instance=fruit)
+    else:
+        form = FruitEditForm(request.POST, instance=fruit)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('dashboard')
+
+    context = {
+        'form': form,
+        'fruit': fruit,
+    }
+
+    return render(request, 'fruits/edit-fruit.html', context)
 
 
 def delete_fruit(request, fruit_id):
