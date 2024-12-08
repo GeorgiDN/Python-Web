@@ -7,6 +7,9 @@ from fruitipediaApp.fruits.validators import OnlyLettersValidator
 class Category(models.Model):
     name = models.CharField(unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Fruit(models.Model):
     name = models.CharField(
