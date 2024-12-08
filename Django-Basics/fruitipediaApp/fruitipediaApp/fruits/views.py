@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from fruitipediaApp.fruits.forms import CategoryAddForm
 from fruitipediaApp.fruits.models import Fruit
 
 
@@ -34,4 +35,17 @@ def delete_fruit(request, fruit_id):
 
 
 def create_category(request):
-    return render(request, 'categories/create-category.html')
+    if request.method == 'GET':
+        form = CategoryAddForm()
+    else:
+        form = CategoryAddForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            form = CategoryAddForm()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'categories/create-category.html', context)
