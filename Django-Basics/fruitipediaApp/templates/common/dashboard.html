@@ -1,50 +1,27 @@
 {% extends 'common/base.html' %}
 {% block content %}
     
-        <!-- Dashboard Page -->
-        <h2>Fruits</h2>
-        <section id="dashboard">
-            <!-- Display a div "fruit" with information about each post (if any)-->
-
-            <!-- first fruit -->
+    <!-- Dashboard Page -->
+    {% if fruits %}
+    <h2>Fruits</h2>
+    <section id="dashboard">
+        <!-- Display a div "fruit" with information about each post (if any)-->
+        {% for fruit in fruits %}
+        <!-- first fruit -->
             <div class="fruit">
                 <!-- fruit image -->
-                <img src="/static/images/fruit 1.png" alt="example1"/>
+                <img src="{{ fruit.image_url }}" alt="example1"/>
                 <!-- fruit name -->
-                <h3 class="title">Pineapple</h3>
+                <h3 class="title">Name: {{ fruit.name }}</h3>
                 <!-- fruit description -->
-                <p class="description">The pineapple is a tropical plant with an edible f...</p>
+                <p class="description">Description: {{ fruit.description }}</p>
                 <!-- fruit details button -->
-                <a class="details-btn" href="#">More Info</a>
+                <a class="details-btn" href="{% url 'details fruit' fruit_id=fruit.pk %}">More Info</a>
             </div>
-
-            <!-- second fruit -->
-            <div class="fruit">
-                <!-- fruit image -->
-                <img src="/static/images/fruit 2.png" alt="example1"/>
-                <!-- fruit name -->
-                <h3 class="title"> Kiwi</h3>
-                <!-- fruit description -->
-                <p>Kiwifruit (often shortened to kiwi in North Americ...</p>
-                <!-- fruit details button -->
-                <a class="details-btn" href="#">More Info</a>
-            </div>
-
-            <!-- third fruit -->
-            <div class="fruit">
-                <!-- fruit image -->
-                <img src="/static/images/fruit 3.png" alt="example1"/>
-                <!-- fruit name -->
-                <h3 class="title">Banana</h3>
-                <!-- fruit description -->
-                <p>A banana is an elongated, edible fruit – botanical...</p>
-                <!-- fruit details button -->
-                <a class="details-btn" href="#">More Info</a>
-            </div>
-
-        </section>
-
-        <!-- Display a heading if there are no posts -->
+        {% endfor %}
+    </section>
+    {% else %}
         <h2>No fruit info yet.</h2>
-
+    {% endif %}
+    
 {% endblock %}
