@@ -25,3 +25,14 @@ class FruitCreateForm(FruitBaseFrom):
 
 class FruitEditForm(FruitBaseFrom):
     pass
+
+
+class FruitDeleteForm(FruitBaseFrom):
+    class Meta:
+        model = Fruit
+        fields = ['name', 'image_url', 'description']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.disabled = True
