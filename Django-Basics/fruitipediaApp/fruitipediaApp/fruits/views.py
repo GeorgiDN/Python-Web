@@ -37,7 +37,13 @@ def create_fruit(request):
 
 
 def details_fruit(request, fruit_id):
-    return render(request, 'fruits/details-fruit.html')
+    fruit = Fruit.objects.get(pk=fruit_id)
+
+    context = {
+        'fruit': fruit
+    }
+
+    return render(request, 'fruits/details-fruit.html', context)
 
 
 def edit_fruit(request, fruit_id):
