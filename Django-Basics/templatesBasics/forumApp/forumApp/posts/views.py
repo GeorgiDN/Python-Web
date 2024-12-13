@@ -33,7 +33,7 @@ class BaseView:
 @method_decorator(measure_execution_time, name="dispatch")
 # class IndexView(TimeRestrictedMixin, TemplateView):
 class IndexView(TemplateView):
-    template_name = "posts/common/index.html"
+    template_name = "common/index.html"
     # for test
     # end_time = time(222, 0)
     extra_context = {
@@ -51,9 +51,9 @@ class IndexView(TemplateView):
 
     def get_template_names(self):
         if self.request.user.is_authenticated:
-            return ["posts/common/index_logged_in.html"]
+            return ["common/index_logged_in.html"]
         else:
-            return ["posts/common/index.html"]
+            return ["common/index.html"]
 
 
 class Index(BaseView):
@@ -67,7 +67,7 @@ class Index(BaseView):
             "dynamic_time": datetime.now(),
         }
 
-        return render(request, "posts/common/index.html", context)
+        return render(request, "common/index.html", context)
 
 
 # def index(request):

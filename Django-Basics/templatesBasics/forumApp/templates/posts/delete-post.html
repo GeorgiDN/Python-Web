@@ -1,4 +1,4 @@
-{% extends "posts/common/base.html" %}
+{% extends "common/base.html" %}
 {% block content %}
     <h1 style="color: dodgerblue">Delete Post</h1>
 <form action="{% url "delete-post" post.pk %}" method="post">
