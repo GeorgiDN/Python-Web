@@ -1,4 +1,6 @@
 from datetime import datetime, time
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
 from django.shortcuts import render, redirect
 
@@ -119,7 +121,7 @@ class DashboardView(ListView, FormView):
 #     return render(request, "posts/dashboard.html", context)
 
 
-class AddPostView(CreateView):
+class AddPostView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostCreateForm
     template_name = "posts/add-post.html"
@@ -201,6 +203,7 @@ class PostDetailView(DetailView):
 
         return self.render_to_response(context)
 
+
 # def details_page(request, pk: int):
 #     post = Post.objects.get(pk=pk)
 #     formset = CommentFormSet(request.POST or None)
@@ -259,5 +262,3 @@ class RedirectHomeView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):  # dynamic
         pass
-
-
