@@ -1,13 +1,14 @@
-from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
-from libraryApi.books.models import Book
-from libraryApi.books.serializers import BookSerializer
+from libraryApi.books.models import Book, Publisher
+from libraryApi.books.serializers import BookSerializer, PublisherHyperlinkSerializer, PublisherSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -87,3 +88,13 @@ class BookViewSet(APIView):
         book = self.get_object(pk)
         book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PublisherDetail(RetrieveAPIView):
+    queryset = Publisher.objects.all()
+    serializer_class = PublisherSerializer
+
+
+class PublisherHyperlinkView(ListAPIView):
+    queryset = Publisher.objects.all()
+    serializer_class = PublisherHyperlinkSerializer

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from libraryApi.books.models import Book, Author
+from libraryApi.books.models import Book, Author, Publisher
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -41,17 +41,13 @@ class BookSerializer(serializers.ModelSerializer):
         return book
 
 
+class PublisherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publisher
+        fields = "__all__"
 
-# {
-#   "author": [
-#     {
-#       "name": "Go6o"
-#     },
-#     {
-#       "name": "Pesho"
-#     }
-#   ],
-#   "title": "New Book",
-#   "pages": 20,
-#   "description": "Nice book"
-# }
+
+class PublisherHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Publisher
+        fields = '__all__'
