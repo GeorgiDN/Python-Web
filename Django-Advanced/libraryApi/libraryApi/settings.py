@@ -31,12 +31,21 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1',
+    'http://127.0.0.1:5500',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",  # before django.contrib.admin
+    "unfold.contrib.filters",  # optional, if special filters are needed
+    "unfold.contrib.forms",  # optional, if special form elements are needed
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,10 +54,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'libraryApi.books.apps.BooksConfig',
 
-    'rest_framework',
+    'rest_framework',  # pip install djangorestframework
+    'drf_spectacular',
+    'corsheaders',  # pip install django-cors-headers
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+}
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Library',
+    'DESCRIPTION': 'Library project',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
