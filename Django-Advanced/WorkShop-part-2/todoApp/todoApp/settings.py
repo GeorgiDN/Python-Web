@@ -31,9 +31,14 @@ ALLOWED_HOSTS = []
 
 PROJECT_APPS = [
     'todoApp.accounts.apps.AccountsConfig',
+    'todoApp.todos.apps.TodosConfig',
 ]
 
 # Application definition
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -47,6 +52,7 @@ INSTALLED_APPS = [
     'drf_spectacular',  # pip install drf-spectacular
     'rest_framework_simplejwt',  # pip install djangorestframework-simplejwt
     'rest_framework_simplejwt.token_blacklist',
+    'corsheaders'  # pip install django-cors-headers
 ] + PROJECT_APPS
 
 REST_FRAMEWORK = {
@@ -72,6 +78,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
