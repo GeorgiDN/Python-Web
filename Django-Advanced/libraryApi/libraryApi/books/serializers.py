@@ -9,6 +9,12 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class BookSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = '__all__'
+
+
 class BookSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(many=True)
 
