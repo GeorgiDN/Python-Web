@@ -90,7 +90,7 @@ class BookViewSet(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PublisherDetail(RetrieveAPIView):
+class PublisherDetail(ModelViewSet):
     queryset = Publisher.objects.all()
     serializer_class = PublisherSerializer
 
