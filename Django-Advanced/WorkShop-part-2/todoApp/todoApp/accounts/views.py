@@ -5,10 +5,12 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.exceptions import TokenError
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from todoApp.accounts.serializers import UserSerializer, LoginRequestSerializer, LoginResponseSerializer
+from todoApp.accounts.serializers import UserSerializer, LoginRequestSerializer, LoginResponseSerializer, \
+    LogoutRequestSerializer
 
 UserModel = get_user_model()
 
@@ -53,3 +55,32 @@ class LoginView(APIView):
             "access": str(refresh.access_token),
             "message": "Login successful",
         }, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    tags=['auth'],
+    summary="Logout endpoint",
+    description="Blacklist the refresh token",
+    request=LogoutRequestSerializer,
+    responses={
+        200: LoginResponseSerializer,
+        400: "Invalid or expired token",
+    }
+)
+class LogoutApiView(APIView):
+    # permission_classes = [IsAuthenticated]
+    # Not needed since we have the default permission in the settings.py
+
+    def post(self, request, *args, **kwargs):
+        try:
+            refresh_token = request.data.get('refresh')
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response({
+                'message': "Logout successful",
+            }, status=status.HTTP_200_OK)
+        except TokenError:
+            return Response({
+                "error": "Invalid or expired token"
+            }, status=status.HTTP_400_BAD_REQUEST)

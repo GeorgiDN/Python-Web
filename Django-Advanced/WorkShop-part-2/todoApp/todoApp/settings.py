@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',  # pip install django-restframework
     'drf_spectacular',  # pip install drf-spectacular
     'rest_framework_simplejwt',  # pip install djangorestframework-simplejwt
+    'rest_framework_simplejwt.token_blacklist',
 ] + PROJECT_APPS
 
 REST_FRAMEWORK = {
@@ -57,6 +58,12 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication'
     ],
 }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Usually this is 5, 10 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Usually 1 or 2 weeks
+}
+
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Todo App',
