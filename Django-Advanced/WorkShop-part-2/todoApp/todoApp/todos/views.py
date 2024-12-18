@@ -1,7 +1,7 @@
 from django.views.generic import DetailView
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveAPIView, RetrieveUpdateAPIView
 from todoApp.todos.models import Todo, Category
-from todoApp.todos.serializers import TodoSerializer, CategorySerializer
+from todoApp.todos.serializers import TodoSerializer, CategorySerializer, TodoReadSerializer
 
 
 class TodoListCreateApiView(ListCreateAPIView):
@@ -19,6 +19,11 @@ class TodoListCreateApiView(ListCreateAPIView):
             queryset = queryset.filter(state=is_done.lower() == 'true')
 
         return queryset
+
+
+class TodoDetailView(RetrieveUpdateAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = TodoReadSerializer
 
 
 class CategoriesListView(ListAPIView):

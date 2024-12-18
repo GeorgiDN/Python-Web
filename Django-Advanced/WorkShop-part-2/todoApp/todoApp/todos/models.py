@@ -32,5 +32,11 @@ class Todo(models.Model):
         on_delete=models.CASCADE,
     )
 
+    assignees = models.ManyToManyField(
+        to=UserModel,
+        related_name='assigned_todos',
+        blank=True,
+    )
+
     def __str__(self):
         return self.title
