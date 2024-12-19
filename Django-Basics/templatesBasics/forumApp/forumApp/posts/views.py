@@ -1,8 +1,14 @@
+import asyncio
+import os
 from datetime import datetime, time
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.forms import modelform_factory
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from asgiref.sync import sync_to_async
+from django.contrib.auth import get_user_model
 
 from django.urls import reverse_lazy
 from django.utils.decorators import classonlymethod, method_decorator
@@ -13,6 +19,8 @@ from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, S
 from forumApp.posts.mixins import TimeRestrictedMixin
 from forumApp.posts.models import Post
 
+
+UserModel = get_user_model()
 
 class BaseView:
     @classonlymethod
@@ -96,7 +104,8 @@ class DashboardView(ListView, FormView):
     def get_queryset(self):
         queryset = self.model.objects.all()
 
-        if "posts.can_approve_posts" not in self.request.user.get_group_permissions() or not self.request.user.has_perm("posts.can_approve_posts"):
+        if "posts.can_approve_posts" not in self.request.user.get_group_permissions() or not self.request.user.has_perm(
+                "posts.can_approve_posts"):
             queryset = queryset.filter(approved=True)
 
         if "query" in self.request.GET:
@@ -104,13 +113,6 @@ class DashboardView(ListView, FormView):
             queryset = queryset.filter(title__icontains=query)
 
         return queryset
-
-
-def approve_post(request, pk):
-    post = Post.objects.get(pk=pk)
-    post.approved = True
-    post.save()
-    return redirect(request.META.get("HTTP_REFERER"))
 
 
 # def dashboard(request):
@@ -129,6 +131,53 @@ def approve_post(request, pk):
 #     }
 #
 #     return render(request, "posts/dashboard.html", context)
+
+
+async def fetch_post_and_users(post_id):
+    post = await Post.objects.select_related('author').aget(pk=post_id)
+    all_users = await sync_to_async(UserModel.objects.exclude)(id=post.author.id)
+    all_user_to_list = await sync_to_async(list)(all_users)
+    return post, all_user_to_list
+
+
+async def send_slow_email(subject, message, origin, to):
+    await asyncio.sleep(5)
+    await sync_to_async(send_mail)(
+        subject=subject,
+        message=message,
+        from_email=origin,
+        recipient_list=[to]
+    )
+
+
+#  notify-users/post_id for sending email
+
+async def notify_all_users(request, post_id):
+    post, all_users = await fetch_post_and_users(post_id)
+
+    subject = f"New Post: {post.title}"
+    message = f"{post.author.username} wrote:\n\n{post.content}"
+
+    email_tasks = [
+        send_slow_email(
+            subject,
+            message,
+            os.environ['EMAIL_HOST_USER'],
+            user.email,
+        )  # Does not call the func it returns an object
+        for user in all_users
+    ]
+
+    await asyncio.gather(*email_tasks)
+
+    return HttpResponse("Done")
+
+
+def approve_post(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.approved = True
+    post.save()
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
 class AddPostView(LoginRequiredMixin, CreateView):
