@@ -1,0 +1,24 @@
+Needed commands:
+ocker pull redis:latest
+docker images
+docker ps
+redis-cli -h 127.0.0.1 -p 6379
+docker run -d --name redis-container -p 6379:6379 redis
+redis-cli ping
+docker exec -it redis-container redis-cli
+pip install redis
+celery -A forumApp worker -l info --pool=solo
+
+
+Run:
+docker run -d --name redis-container -p 6379:6379 redis
+docker ps
+docker exec -it redis-container redis-cli
+redis-cli ping
+celery -A forumApp worker -l info --pool=solo
+
+
+stop:
+docker stop redis-container
+remove:
+docker rm redis-container
