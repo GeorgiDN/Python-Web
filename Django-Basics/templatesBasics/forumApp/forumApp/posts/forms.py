@@ -10,24 +10,22 @@ from forumApp.posts.models import Post, Comment
 class PostBaseForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ["approved"]
+        exclude = ["approved", "author"]
 
         error_messages = {
             "title": {
                 "required": "This field is required.",
                 "max_length": f"This field is too long. Max length is {Post.TITLE_MAX_LENGTH}.",
             },
-            "author": {
-                "required": "Please enter the author name.",
-            }
         }
 
-    def clean_author(self):
-        author = self.cleaned_data.get("author")
+    # def clean_author(self):
+    #     author = self.cleaned_data.get("author")
+    #
+    #     if not author[0].isupper():
+    #         raise ValidationError("Author name must start with a capital letter!")
+    #     return author
 
-        if not author[0].isupper():
-            raise ValidationError("Author name must start with a capital letter!")
-        return author
 
     def clean(self):
         cleaned_data = super().clean()
