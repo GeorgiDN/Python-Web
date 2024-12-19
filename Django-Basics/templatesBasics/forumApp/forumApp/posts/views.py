@@ -89,7 +89,7 @@ class DashboardView(ListView, FormView):
     template_name = "posts/dashboard.html"
     context_object_name = "posts"
     form_class = SearchForm
-    paginate_by = 2
+    paginate_by = 5
     success_url = reverse_lazy("dash")
     model = Post
 
