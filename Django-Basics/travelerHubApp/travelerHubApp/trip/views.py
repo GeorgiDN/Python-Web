@@ -18,6 +18,11 @@ class TripListView(ListView):
     template_name = 'all-trips.html'
     context_object_name = 'trips'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['traveler'] = get_profile()
+        return context
+
 
 class TripCreateView(CreateView):
     model = Trip
@@ -30,11 +35,21 @@ class TripCreateView(CreateView):
         form.instance.traveler = traveler
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['traveler'] = get_profile()
+        return context
+
 
 class TripDetailView(DetailView):
     model = Trip
     template_name = 'details-trip.html'
     context_object_name = 'trip'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['traveler'] = get_profile()
+        return context
 
 
 class TripEditView(UpdateView):
@@ -42,6 +57,11 @@ class TripEditView(UpdateView):
     form_class = TripEditForm
     template_name = 'edit-trip.html'
     success_url = reverse_lazy('all-trips')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['traveler'] = get_profile()
+        return context
 
 
 class TripDeleteView(DeleteView):
@@ -52,3 +72,8 @@ class TripDeleteView(DeleteView):
 
     def get_initial(self):
         return self.get_object().__dict__
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['traveler'] = get_profile()
+        return context

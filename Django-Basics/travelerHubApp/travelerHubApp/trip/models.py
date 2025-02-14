@@ -27,5 +27,8 @@ class Trip(models.Model):
         related_name='trips',
     )
 
+    def __str__(self):
+        return f"{self.destination}: {self.duration} day/s, started on: {self.start_date}"
+
     class Meta:
         ordering = ['-start_date']

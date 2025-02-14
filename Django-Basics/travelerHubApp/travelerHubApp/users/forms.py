@@ -32,4 +32,6 @@ class TravelerEditForm(TravelerBaseForm):
 
 
 class TravelerDeleteForm(TravelerBaseForm):
-    pass
+    class Meta:
+        model = Traveler
+        fields = ()
