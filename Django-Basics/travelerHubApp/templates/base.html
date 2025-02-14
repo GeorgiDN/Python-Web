@@ -22,19 +22,19 @@
             <nav>
 
                 <!-- If there is a traveler's profile -->
-
+            {% if traveler %}
                 <div class="user">
-                    <a href="#">All Trips</a>
-                    <a href="#">Share Trip</a>
-                    <a href="#">Traveler's Profile</a>
+                    <a href="{% url 'all-trips' %}">All Trips</a>
+                    <a href="{% url 'create-trip' %}">Share Trip</a>
+                    <a href="{% url 'profile-details' %}">Traveler's Profile</a>
                 </div>
 
                 <!-- If the traveler's profile has NOT been created -->
-                
+            {% else %}
                 <div class="guest">
-                    <a href="#">New Traveler's Profile</a>
+                    <a href="{% url 'profile-create' %}">New Traveler's Profile</a>
                 </div>
-
+            {% endif %}
             </nav>
         </header>
 

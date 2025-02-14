@@ -1,76 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=\, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/styles/styles.css" />
-    <title>Travelers Hub</title>
-</head>
-
-<body>
-    <div id="wrapper">
-        <header>
-            <!-- Navigation -->
-
-            <!-- Logo image: a link to index/home page -->
-            <a id="logo" href="#">
-                <img id="logo-img" src="/static/images/logo-boeing.png" alt="logo" />
-            </a>
-
-            <nav>
-
-                <!-- If there is a traveler's profile -->
-
-                <div class="user">
-                    <a href="#">All Trips</a>
-                    <a href="#">Share Trip</a>
-                    <a href="#">Traveler's Profile</a>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+    <!-- Display a heading if there are trips, including their count -->
+    {% if trips %}
+        <h2>{{ trips|length  }} Shared Trips</h2>
+    
+        <section id="dashboard">
+    
+            <!-- Display a div with information about each trip (if any). Trips must be ordered by start_date descending -->
+            {% for trip in trips %}
+                <div class="post">
+                    {% if trip.image_url %}
+                    <img src="{{ trip.image_url }}" alt="{{ trip.destination }} img"/>
+                    {% else %}
+                    <img src="{% static '/images/default-trip.jpg' %}" alt="{{ trip.destination }} img"/>
+                {% endif %}
+                    <h3 class="title">{{ trip.destination }}</h3>
+                    <p class="description">{{ trip.start_date|date:"D d M Y" }}</p>
+                    <a class="details-btn" href="{% url 'trip-details' trip.pk %}">Details</a>
                 </div>
-
-                <!-- If the traveler's profile has NOT been created -->
-
-                <div class="guest">
-                    <a href="#">New Traveler's Profile</a>
-                </div>
-
-            </nav>
-        </header>
-
-        <main>
-
-            <!-- All Trips page -->
-
-            <!-- Display a heading if there are trips, including their count -->
-            {% if trips %}
-                <h2>{{ trips|length  }} Shared Trips</h2>
-
-                <section id="dashboard">
-
-                    <!-- Display a div with information about each trip (if any). Trips must be ordered by start_date descending -->
-                    {% for trip in trips %}
-                        <div class="post">
-                            <img src="{{ trip.image_url }}"
-                                alt="Trip image" />
-                            <h3 class="title">{{ trip.destination }}</h3>
-                            <p class="description">{{ trip.start_date|date:"D d M Y" }}</p>
-                            <a class="details-btn" href="{% url 'trip-details' trip.pk %}">Details</a>
-                        </div>
-                    {% endfor %}
-                
-            {% else %}
-            <!-- Display a heading if there are NO trips -->
-                <h2>No shared trips</h2>
-            {% endif %}
-            </section>
-
-        </main>
-    </div>
-    <!-- footer -->
-    <footer>
-        <p>&copy; 2024 Travelers Hub by SoftUni Team. All rights reserved.</p>
-    </footer>
-</body>
-
-</html>
+            {% endfor %}
+        
+    {% else %}
+    <!-- Display a heading if there are NO trips -->
+        <h2>No shared trips</h2>
+    {% endif %}
+    </section>
+{% endblock %}

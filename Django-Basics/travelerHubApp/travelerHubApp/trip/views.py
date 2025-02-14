@@ -4,10 +4,13 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 
 from travelerHubApp.trip.forms import TripCreateForm, TripEditForm, TripDeleteForm
 from travelerHubApp.trip.models import Trip
+from travelerHubApp.utils.profile_utils import get_profile
 
 
 def index(request):
-    return render(request, 'index.html')
+    traveler = get_profile()
+    context = {'traveler': traveler}
+    return render(request, 'index.html', context)
 
 
 class TripListView(ListView):
@@ -20,7 +23,12 @@ class TripCreateView(CreateView):
     model = Trip
     form_class = TripCreateForm
     template_name = 'create-trip.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('all-trips')
+
+    def form_valid(self, form):
+        traveler = get_profile()
+        form.instance.traveler = traveler
+        return super().form_valid(form)
 
 
 class TripDetailView(DetailView):
@@ -42,7 +50,5 @@ class TripDeleteView(DeleteView):
     template_name = 'delete-trip.html'
     success_url = reverse_lazy('all-trips')
 
-# def trip_details(request, pk):
-#     trip = Trip.objects.get(pk=pk)
-#     context = {'trip': trip}
-#     return render(request, 'details-trip.html', context)
+    def get_initial(self):
+        return self.get_object().__dict__

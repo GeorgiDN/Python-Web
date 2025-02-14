@@ -1,89 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=\, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/styles/styles.css" />
-    <title>Travelers Hub</title>
-</head>
+    <!-- Trip Details -->
+    <section id="details">
+        <div id="details-wrapper">
+            <h2>Trip Details</h2>
 
-<body>
-    <div id="wrapper">
-        <header>
-            <!-- Navigation -->
+            <!-- trip image if there is such, otherwise display the default one -->
+            {% if trip.image_url %}
+                <img src="{{ trip.image_url }}" alt="{{ trip.destination }} img"/>
+            {% else %}
+                <img src="{% static '/images/default-trip.jpg' %}" alt="{{ trip.destination }} img"/>
+            {% endif %}
 
-            <!-- Logo image: a link to index/home page -->
-            <a id="logo" href="#">
-                <img id="logo-img" src="/static/images/logo-boeing.png" alt="logo" />
-            </a>
+            <!-- trip destination -->
+            <p id="details-title">{{ trip.destination }}</p>
 
-            <nav>
+            <div id="info-wrapper">
+                <div id="details-description">
 
-                <!-- If there is a traveler's profile -->
-
-                <div class="user">
-                    <a href="#">All Trips</a>
-                    <a href="#">Share Trip</a>
-                    <a href="#">Traveler's Profile</a>
+                    <!-- trip start date in format "D d M Y" -->
+                    <p class="description">
+                        {{ trip.start_date|date:"D d M Y" }}
+                    </p>
+                    <!-- trip duration -->
+                    <p>
+                        {{ trip.duration }}
+                    </p>
+                    <!-- trip summary -->
+                    <p>
+                        {{ trip.summary }}
+                    </p>
                 </div>
 
-                <!-- If the traveler's profile has NOT been created -->
-
-                <div class="guest">
-                    <a href="#">New Traveler's Profile</a>
+                <!--Edit and Delete buttons -->
+                <div id="action-buttons">
+                    <a href="{% url 'trip-edit' trip.pk %}" id="edit-btn">Edit</a>
+                    <a href="{% url 'trip-delete' trip.pk %}" id="delete-btn">Delete</a>
                 </div>
-
-            </nav>
-        </header>
-
-        <main>
-
-            <!-- Trip Details -->
-            <section id="details">
-                <div id="details-wrapper">
-                    <h2>Trip Details</h2>
-
-                    <!-- trip image if there is such, otherwise display the default one -->
-                    <img src="{{ trip.image_url }}" 
-                        alt="Trip image" />
-
-                    <!-- trip destination -->
-                    <p id="details-title">{{ trip.destination }}</p>
-
-                    <div id="info-wrapper">
-                        <div id="details-description">
-
-                            <!-- trip start date in format "D d M Y" -->
-                            <p class="description">
-                                {{ trip.start_date|date:"D d M Y" }}
-                            </p>
-                            <!-- trip duration -->
-                            <p>
-                                {{ trip.duration }}
-                            </p>
-                            <!-- trip summary -->
-                            <p>
-                                {{ trip.summary }}
-                            </p>
-                        </div>
-
-                        <!--Edit and Delete buttons -->
-                        <div id="action-buttons">
-                            <a href="#" id="edit-btn">Edit</a>
-                            <a href="#" id="delete-btn">Delete</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-    </div>
-    <!-- footer -->
-    <footer>
-        <p>&copy; 2024 Travelers Hub by SoftUni Team. All rights reserved.</p>
-    </footer>
-</body>
-
-</html>
+            </div>
+        </div>
+    </section>
+{% endblock %}

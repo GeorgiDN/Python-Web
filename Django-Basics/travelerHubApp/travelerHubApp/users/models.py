@@ -21,7 +21,7 @@ class Traveler(models.Model):
     country = models.CharField(
         validators=[
             RegexValidator(
-                regex=r'^[A-Z]{3}',
+                regex=r'^[A-Za-z]{3}',
             )]
     )
     about_me = models.TextField(

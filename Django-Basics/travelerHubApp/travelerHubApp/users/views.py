@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from travelerHubApp.users.forms import TravelerCreateForm, TravelerEditForm, TravelerDeleteForm
 from travelerHubApp.users.models import Traveler
+from travelerHubApp.utils.profile_utils import get_profile
 
 
 class ProfileCreateView(CreateView):
@@ -13,10 +15,14 @@ class ProfileCreateView(CreateView):
     success_url = reverse_lazy('all-trips')
 
 
-class ProfileDetailView(DetailView):
-    model = Traveler
+
+class ProfileDetailView(View):
     template_name = 'details-trip.html'
-    context_object_name = 'traveler'
+
+    def get(self, request, *args, **kwargs):
+        traveler = get_profile() # or based on another logic you need
+        context = {'traveler': traveler}
+        return render(request, self.template_name, context)
 
 
 class ProfileEditView(UpdateView):
