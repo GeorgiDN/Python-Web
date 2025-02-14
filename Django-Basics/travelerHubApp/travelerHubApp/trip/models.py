@@ -17,9 +17,15 @@ class Trip(models.Model):
         default=1,
         help_text='*Duration in days is expected.'
     )
-    image_url = models.URLField()
+    image_url = models.URLField(
+        blank=True,
+        null=True,
+    )
     traveler = models.ForeignKey(
         to=Traveler,
         on_delete=models.CASCADE,
         related_name='trips',
     )
+
+    class Meta:
+        ordering = ['-start_date']

@@ -43,73 +43,26 @@
             <!-- All Trips page -->
 
             <!-- Display a heading if there are trips, including their count -->
-            <h2>4 Shared Trips</h2>
+            {% if trips %}
+                <h2>{{ trips|length  }} Shared Trips</h2>
+
+                <section id="dashboard">
+
+                    <!-- Display a div with information about each trip (if any). Trips must be ordered by start_date descending -->
+                    {% for trip in trips %}
+                        <div class="post">
+                            <img src="{{ trip.image_url }}"
+                                alt="Trip image" />
+                            <h3 class="title">{{ trip.destination }}</h3>
+                            <p class="description">{{ trip.start_date|date:"D d M Y" }}</p>
+                            <a class="details-btn" href="{% url 'trip-details' trip.pk %}">Details</a>
+                        </div>
+                    {% endfor %}
+                
+            {% else %}
             <!-- Display a heading if there are NO trips -->
-            <h2>No shared trips</h2>
-
-            <section id="dashboard">
-
-                <!-- Display a div with information about each trip (if any). Trips must be ordered by start_date descending -->
-
-                <!-- first trip -->
-                <div class="post">
-                    <!-- trip image if there is such, otherwise display the default one -->
-
-                    <img src="https://cdn.pixabay.com/photo/2019/09/17/17/56/machu-picchu-4484205_1280.jpg"
-                        alt="Cusco, Peru img" />
-
-                    <!-- trip destination -->
-                    <h3 class="title">Cusco, Peru</h3>
-                    <!-- trip start date in format "D d M Y" -->
-                    <p class="description">Fri 08 Nov 2024</p>
-                    <!-- trip details button -->
-                    <a class="details-btn" href="#">Details</a>
-                </div>
-
-                <!-- second trip -->
-                <div class="post">
-                    <!-- trip image if there is such, otherwise display the default one -->
-
-                    <img src="https://cdn.pixabay.com/photo/2018/11/07/18/29/iceland-3800913_1280.jpg"
-                        alt="Reykjavik, Iceland img" />
-
-                    <!-- trip destination -->
-                    <h3 class="title">Reykjavik, Iceland</h3>
-                    <!-- trip start date in format "D d M Y" -->
-                    <p class="description">Thu 31 Oct 2024</p>
-                    <!-- trip details button -->
-                    <a class="details-btn" href="#">Details</a>
-                </div>
-
-                <!-- third trip -->
-                <div class="post">
-                    <!-- trip image if there is such, otherwise display the default one -->
-
-                    <img src="https://cdn.pixabay.com/photo/2021/10/05/16/53/kimono-6683245_1280.jpg"
-                        alt="Kyoto, Japan img" />
-
-                    <!-- trip destination -->
-                    <h3 class="title">Kyoto, Japan</h3>
-                    <!-- trip start date in format "D d M Y" -->
-                    <p class="description">Thu 17 Oct 2024</p>
-                    <!-- trip details button -->
-                    <a class="details-btn" href="#">Details</a>
-                </div>
-
-                <!-- fourth trip -->
-                <div class="post">
-                    <!-- trip image if there is such, otherwise display the default one -->
-                    <!-- a default image-->
-                    <img src="/static/images/default-trip.jpg" alt="London, UK img" />
-
-                    <!-- trip destination -->
-                    <h3 class="title">London, UK</h3>
-                    <!-- trip start date in format "D d M Y" -->
-                    <p class="description">Sun 13 Oct 2024</p>
-                    <!-- trip details button -->
-                    <a class="details-btn" href="#">Details</a>
-                </div>
-
+                <h2>No shared trips</h2>
+            {% endif %}
             </section>
 
         </main>
