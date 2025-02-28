@@ -24,4 +24,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('profile/', include('fruitipediaApp.accounts.urls')),
+    path('fruit/', include('fruitipediaApp.fruits.urls')),
 ]

@@ -3,6 +3,7 @@ from django.views.generic import CreateView
 
 from fruitipediaApp.accounts.forms import ProfileCreateForm
 from fruitipediaApp.accounts.models import Profile
+from fruitipediaApp.core.utils import get_profile
 
 
 class ProfileCreateView(CreateView):

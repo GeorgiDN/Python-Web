@@ -4,9 +4,11 @@ from fruitipediaApp.accounts.models import Profile
 
 
 class ProfileCreateForm(forms.ModelForm):
+
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'email', 'password']
+
+        fields = ('first_name', 'last_name', 'email', 'password')
         widgets = {
             'password': forms.PasswordInput(),
         }
@@ -18,7 +20,7 @@ class ProfileCreateForm(forms.ModelForm):
         }
 
         help_texts = {
-            'password': '*Password length requirements: 8 to 20 characters',
+            'password': "*Password length requirements: 8 to 20 characters",
         }
 
     def __init__(self, *args, **kwargs):

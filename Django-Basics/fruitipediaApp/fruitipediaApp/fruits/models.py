@@ -27,6 +27,8 @@ class Fruit(models.Model):
         to=Profile,
         on_delete=models.CASCADE,
         related_name='fruits',
+        blank=True,
+        null=True,
     )
 
     def __str__(self):
