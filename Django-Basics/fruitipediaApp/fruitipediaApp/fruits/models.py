@@ -2,7 +2,7 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 
 from fruitipediaApp.accounts.models import Profile
-from fruitipediaApp.accounts.validators import validate_letters
+from fruitipediaApp.core.custom_validators import validate_letters
 
 
 class Fruit(models.Model):
