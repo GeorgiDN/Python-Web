@@ -15,6 +15,13 @@
 <body>
     {% include 'nav.html' %}
     <h1>Hello User</h1>
+    <form action="/" method="post">
+        {{ my_form }}
+        {{ my_form.errors }}
+        {% csrf_token %}
+        <button>Submit</button>
+    </form>
+
 </body>
     <script src='https://unpkg.com/akar-icons-fonts'></script>
 </html>
