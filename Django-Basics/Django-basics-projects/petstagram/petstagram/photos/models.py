@@ -9,7 +9,7 @@ class Photo(models.Model):
         ordering = ["-date_of_publication"]
 
     photo = models.ImageField(
-        upload_to="",
+        upload_to="mediafiles",
         validators=[
             FileSizeValidator(5),
         ])
