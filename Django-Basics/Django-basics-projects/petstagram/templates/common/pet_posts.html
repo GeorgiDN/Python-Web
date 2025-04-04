@@ -37,14 +37,19 @@
         <!-- like and share buttons -->
         <div class="actionBtns">
             <div class="left">
-								<span class="heart">
-                                    <a href="#">
-                                        <!-- if user has liked the photo -->
-                                        <i class="fa-solid fa-heart" style="color: #ed4040;"></i>
-                                        <!-- else -->
-                                        <i class="fa-regular fa-heart"></i>
-                                    </a>
-								</span>
+                <span class="heart">
+                     <a href="{% url 'like' photo.pk %}">
+                         <!-- if user has liked the photo -->
+                         {% if photo.photo_likes.all %}
+                             <i class="fa-solid fa-heart" style="color: #ed4040;"></i>
+    
+                             <!-- else -->
+                         {% else %}
+                             <i class="fa-regular fa-heart"></i>
+                         {% endif %}                   
+    
+                     </a>
+                </span>
                 <a href="share">
                     <i class="fa-solid fa-share"></i>
                 </a>
@@ -53,7 +58,7 @@
         <!-- -->
 
         <a href="#">
-            <p class="likes">203 likes</p>
+            <p class="likes">{{ photo.photo_likes.count }} likes</p>
         </a>
 
         {% for pet in photo.tagged_pets.all %}
