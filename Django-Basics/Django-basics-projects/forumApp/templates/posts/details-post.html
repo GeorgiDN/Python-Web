@@ -8,7 +8,7 @@
         <div class="post">  
             <div class="header">  
                 {% if post.image %}
-                    <img src="{{ post.image.url }}" width="50" height="50" class="img-fluid" />
+                    <img src="{{ post.image.url }}" width="50" height="50" class="img-fluid" alt="post-image"/>
                 {% endif %}
                 <h2>{{ post.title|capfirst }}</h2>  
                 <div class="icons">  

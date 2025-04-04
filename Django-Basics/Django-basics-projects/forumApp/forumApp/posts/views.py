@@ -34,7 +34,7 @@ def dashboard(request):
 
 
 def add_post(request):
-    form = PostCreateForm(request.POST or None)
+    form = PostCreateForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -73,20 +73,22 @@ def details_page(request, pk: int):
 
 def edit_post(request, pk: int):
     post = Post.objects.get(pk=pk)
-    form = PostEditForm(instance=post)
 
-    if request.method == 'POST':
-        form = PostEditForm(request.POST, instance=post)
+    if request.method == "POST":
+        form = PostCreateForm(request.POST, request.FILES, instance=post)
+
         if form.is_valid():
             form.save()
-            return redirect('dash')
+            return redirect("dash")
+    else:
+        form = PostCreateForm(instance=post)
 
     context = {
-        'post': post,
-        'form': form,
+        "form": form,
+        "post": post,
     }
 
-    return render(request, 'posts/edit-post.html', context)
+    return render(request, "posts/edit-post.html", context)
 
 
 def delete_post(request, pk: int):

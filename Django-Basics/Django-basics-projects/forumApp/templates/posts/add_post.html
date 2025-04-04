@@ -2,9 +2,9 @@
 {% block content %}
 {% load markdown_extras %}
     <h1>Add post</h1>
-    <form action="{% url 'add-post' %}" method="post">
-        {% csrf_token %}
+    <form action="{% url "add-post" %}" method="post" enctype="multipart/form-data">
         {{ form }}
-        <button class="button-9" type="submit">Submit</button>
+        {% csrf_token %}
+        <button class="button-9">Submit</button>
     </form>
 {% endblock %}

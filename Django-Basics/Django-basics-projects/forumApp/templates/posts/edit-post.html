@@ -2,7 +2,7 @@
 {% load markdown_extras %}
 {% block content %}
     <h1>Edit post</h1>
-    <form action="{% url 'edit-post' post.pk %}" method="post">
+    <form action="{% url 'edit-post' post.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
         <button class="button-9" type="submit">Edit</button>
