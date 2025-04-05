@@ -3,7 +3,7 @@
     <div class="top">
         <!-- User Details and image location -->
         <div class="userDetails">
-            <a href="profile details">
+            <a href="profile-details">
                 <div class="profilepic">
                     <div class="profile_img">
                         <div class="image">
@@ -13,7 +13,7 @@
                 </div>
             </a>
             <h3>
-                <a href="profile details">
+                <a href="profile-details">
                     <!-- if user has first name and last name -->
                     Diyan Kalaydzhiev
                     <!-- else -->
@@ -34,7 +34,7 @@
                     </a>
 
                     <!-- Link to Delete Pet Photo Page -->
-                    <a href="#">
+                    <a href="{% url 'photo-delete' photo.pk %}">
                         <img class="bin-img" src="{% static '/images/icon-remove-22.jpg' %}"
                              alt="bin button">
                     </a>
@@ -132,7 +132,7 @@
         <!-- add comments section -->
         <div class="addComments">
 
-            <form method="post" action="add comment">
+            <form method="post" action="add-comment">
                 <label for="id_body">Body:</label>
                 <textarea name="body" cols="40" rows="10" placeholder="Add comment..." maxlength="300"
                           required="" id="id_body"></textarea>

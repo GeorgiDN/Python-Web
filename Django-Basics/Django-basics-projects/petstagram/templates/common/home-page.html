@@ -13,7 +13,7 @@
             </form>
             <!-- End Searchbar Form -->
             {% for photo in all_photos %}
-                {% include 'common/pet_posts.html' %}
+                {% include 'common/pet_posts.html' with photo=photo %}
             {% endfor %}
 
         </div>
