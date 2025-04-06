@@ -9,7 +9,7 @@ from forumApp.posts.models import Post, Comment
 class PostBaseForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = "__all__"
+        exclude = ('image', )
 
         error_messages = {
             'title': {

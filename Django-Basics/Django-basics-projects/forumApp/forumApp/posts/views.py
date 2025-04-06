@@ -4,7 +4,7 @@ from django.forms import modelform_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, FormView, CreateView, UpdateView, DeleteView
 
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm, PostEditForm, CommentFormSet
 from forumApp.posts.models import Post
@@ -130,18 +130,30 @@ class EditPostView(UpdateView):
 #     return render(request, "posts/edit-post.html", context)
 
 
-def delete_post(request, pk: int):
-    post = Post.objects.get(pk=pk)
-    form = PostDeleteForm(instance=post)
+class DeletePostView(DeleteView):
+    model = Post
+    template_name = "posts/delete-post.html"
+    success_url = reverse_lazy("dash")
+    form_class = PostDeleteForm
 
-    if request.method == 'POST':
-        post.delete()
-        return redirect('dash')
+    def get_initial(self):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        post = Post.objects.get(pk=pk)
+        return post.__dict__
 
-    context = {
-        'form': form,
-        'post': post,
-    }
 
-    return render(request, 'posts/delete-post.html', context)
+# def delete_post(request, pk: int):
+#     post = Post.objects.get(pk=pk)
+#     form = PostDeleteForm(instance=post)
+#
+#     if request.method == 'POST':
+#         post.delete()
+#         return redirect('dash')
+#
+#     context = {
+#         'form': form,
+#         'post': post,
+#     }
+#
+#     return render(request, 'posts/delete-post.html', context)
 
