@@ -4,10 +4,10 @@ from forumApp.posts import views as post_views
 urlpatterns = [
     path('', post_views.index, name='index'),
     path('dashboard/', post_views.DashBoardView.as_view(), name='dash'),
-    path('add-post/', post_views.add_post, name='add-post'),
+    path('add-post/', post_views.AddPostView.as_view(), name='add-post'),
     path('<int:pk>/', include([
         path('delete-post/', post_views.delete_post, name='delete-post'),
         path('details-post/', post_views.details_page, name='details-post'),
-        path('edit-post/', post_views.edit_post, name='edit-post'),
+        path('edit-post/', post_views.EditPostView.as_view(), name='edit-post'),
     ])),
 ]
