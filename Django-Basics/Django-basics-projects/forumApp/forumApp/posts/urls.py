@@ -3,7 +3,7 @@ from forumApp.posts import views as post_views
 
 urlpatterns = [
     path('', post_views.index, name='index'),
-    path('dashboard/', post_views.dashboard, name='dash'),
+    path('dashboard/', post_views.DashBoardView.as_view(), name='dash'),
     path('add-post/', post_views.add_post, name='add-post'),
     path('<int:pk>/', include([
         path('delete-post/', post_views.delete_post, name='delete-post'),

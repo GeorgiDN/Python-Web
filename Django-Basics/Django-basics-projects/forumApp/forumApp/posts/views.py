@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, FormView
 
 from forumApp.posts.forms import PostBaseForm, PostCreateForm, PostDeleteForm, SearchForm, PostEditForm, CommentFormSet
 from forumApp.posts.models import Post
@@ -14,6 +16,23 @@ def index(request):
     }
 
     return render(request, 'common/index.html', context)
+
+
+class DashBoardView(ListView, FormView):
+    model = Post
+    template_name = 'posts/dashboard.html'
+    context_object_name = 'posts'
+    form_class = SearchForm
+    success_url = reverse_lazy('dash')
+
+    def get_queryset(self):
+        queryset = self.model.objects.all()
+
+        if 'query' in self.request.GET:
+            query = self.request.GET['query']
+            queryset = queryset.filter(title__icontains=query)
+
+        return queryset
 
 
 def dashboard(request):
