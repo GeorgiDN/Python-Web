@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'musicApp.albums.apps.AlbumsConfig',
     'musicApp.profiles.apps.ProfilesConfig',
+    'musicApp.common.apps.CommonConfig',
 ]
 
 MIDDLEWARE = [
