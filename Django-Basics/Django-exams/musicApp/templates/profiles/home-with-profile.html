@@ -3,13 +3,12 @@
     <section id="catalogPage">
         {% if album_list %}
             <h1>All Albums</h1>
-            
         {% else %}
             <p>No Albums in Catalog!</p>
         {% endif %}
         
         {% for album  in album_list %}
-            <p>{{ album.image_url }}</p>
+            
         <div class="card-box">
             <img src="{{ album.image_url }}" alt="Cover Image"/>
             <div>
@@ -20,7 +19,7 @@
                     <p class="price">Price: {{ album.price|floatformat:2 }}</p>
                 </div>
                 <div class="btn-group">
-{#                    <a href="{% url 'album-details' album.pk %}">Details</a>#}
+                    <a href="{% url 'album-details' album.pk %}">Details</a>
                 </div>
             </div>
         </div>
