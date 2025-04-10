@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -5,7 +6,8 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 
 from worldOfSpeed.accounts.forms import ProfileCreateForm, ProfileEditForm, ProfileDeleteForm
 from worldOfSpeed.accounts.models import Profile
-from worldOfSpeed.core.utils import get_profile, get_cars
+from worldOfSpeed.cars.models import Car
+from worldOfSpeed.core.utils import get_profile, get_cars, get_total_price
 
 
 class ProfileCreateView(CreateView):
@@ -21,11 +23,14 @@ class ProfileDetailView(View):
     def get(self, request, *args, **kwargs):
         profile = get_profile()
         cars = get_cars()
+        # total_sum = get_total_price(profile, cars)
+        total_sum = Car.objects.filter(owner=profile, owner__isnull=False) \
+                          .aggregate(total_price=Sum('price'))['total_price'] or 0
 
         context = {
             'profile': profile,
             'cars': cars,
-
+            'total_sum': total_sum,
         }
 
         return render(request, self.template_name, context)
@@ -50,7 +55,7 @@ class ProfileEditView(UpdateView):
 
         if form.is_valid():
             form.save()
-            return redirect('details-profile')
+            return redirect('profile-details')
 
         context = {'form': form, 'profile': profile}
         return render(request, self.template_name, context)

@@ -43,7 +43,7 @@ class Car(models.Model):
     owner = models.ForeignKey(
         to=Profile,
         on_delete=models.CASCADE,
-        related_name='cars',
+        related_name='profile_cars',
     )
 
     def __str__(self):

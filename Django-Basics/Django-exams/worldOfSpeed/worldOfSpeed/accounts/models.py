@@ -28,10 +28,20 @@ class Profile(models.Model):
     last_name = models.CharField(
         max_length=25,
     )
-    profile_picture = models.ImageField(
+    profile_picture = models.URLField(
         null=True,
         blank=True,
     )
+
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name:
+            return f'{self.first_name} {self.last_name}'
+        if self.first_name:
+            return f'{self.first_name}'
+        if self.last_name:
+            return f'{self.last_name}'
+        return None
 
     def __str__(self):
         return self.username

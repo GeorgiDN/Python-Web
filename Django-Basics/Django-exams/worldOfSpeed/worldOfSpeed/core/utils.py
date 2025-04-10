@@ -8,3 +8,11 @@ def get_profile():
 
 def get_cars():
     return Car.objects.all() if Car.objects.all() else None
+
+
+def get_total_price(profile, cars):
+    total_price = 0
+    if profile:
+        for car in cars:
+            total_price += car.price
+    return total_price
