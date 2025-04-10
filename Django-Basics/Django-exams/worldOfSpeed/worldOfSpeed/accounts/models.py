@@ -1,6 +1,5 @@
 from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
-from django.forms import EmailField
 
 from worldOfSpeed.core.custom_validators import validate_username
 
@@ -13,7 +12,7 @@ class Profile(models.Model):
             validate_username
         ],
     )
-    email = EmailField()
+    email = models.EmailField()
     age = models.IntegerField(
         validators=[
             MinValueValidator(21),

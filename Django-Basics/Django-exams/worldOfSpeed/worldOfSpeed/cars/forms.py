@@ -9,21 +9,21 @@ class CarCreateForm(forms.ModelForm):
         exclude = ['owner']
 
         labels = {
-            'car_type': '',
-            'model': '',
-            'year': '',
-            'image_url': '',
-            'price': '',
+            'car_type': 'Type',
+            'model': 'Model',
+            'year': 'Year',
+            'image_url': 'Image URL',
+            'price': 'Price',
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['car_type'].widget.attrs['placeholder'] = 'Type'
-        self.fields['model'].widget.attrs['placeholder'] = 'Model'
-        self.fields['year'].widget.attrs['placeholder'] = 'Year'
-        self.fields['image_url'].widget.attrs['placeholder'] = 'Image URL:'
-        self.fields['price'].widget.attrs['placeholder'] = 'Price'
+        # self.fields['car_type'].widget.attrs['placeholder'] = 'Type'
+        # self.fields['model'].widget.attrs['placeholder'] = 'Model'
+        # self.fields['year'].widget.attrs['placeholder'] = 'Year'
+        self.fields['image_url'].widget.attrs['placeholder'] = 'https://...'
+        # self.fields['price'].widget.attrs['placeholder'] = 'Price'
 
 
 class CarEditForm(forms.ModelForm):

@@ -16,7 +16,7 @@ class ProfileCreateView(CreateView):
 
 
 class ProfileDetailView(View):
-    template_name = 'profile/details-profile.html'
+    template_name = 'profile/profile-details.html'
 
     def get(self, request, *args, **kwargs):
         profile = get_profile()

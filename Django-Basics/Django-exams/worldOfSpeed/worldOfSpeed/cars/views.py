@@ -16,9 +16,11 @@ def index(request):
 def catalogue(request):
     profile = get_profile()
     cars = get_cars()
+    cars_number = len(cars) if cars else 0
     context = {
         'profile': profile,
-        'fruits': cars
+        'cars': cars,
+        'cars_number': cars_number,
     }
     return render(request, 'catalogue.html', context)
 
@@ -27,7 +29,7 @@ class CarCreateView(CreateView):
     model = Car
     form_class = CarCreateForm
     template_name = 'cars/car-create.html'
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('catalogue')
 
     def form_valid(self, form):
         profile = get_profile()
