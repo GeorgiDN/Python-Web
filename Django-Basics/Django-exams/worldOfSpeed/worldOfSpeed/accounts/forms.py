@@ -30,3 +30,16 @@ class ProfileCreateForm(forms.ModelForm):
         self.fields['email'].widget.attrs['placeholder'] = 'Email'
         self.fields['age'].widget.attrs['placeholder'] = 'Age'
         self.fields['password'].widget.attrs['placeholder'] = 'Password'
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('username', 'email', 'age', 'password', 'first_name', 'last_name', 'profile_picture')
+
+
+class ProfileDeleteForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ()
