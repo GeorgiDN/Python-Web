@@ -13,7 +13,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def dashboard(request):
+def catalogue(request):
     profile = get_profile()
     cars = get_cars()
     context = {
