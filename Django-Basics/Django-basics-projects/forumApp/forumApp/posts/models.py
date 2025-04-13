@@ -26,11 +26,19 @@ class Post(models.Model):
         choices=LanguageChoice.choices,
         default=LanguageChoice.OTHER,
     )
+    approved = models.BooleanField(
+        default=False,
+    )
     image = models.ImageField(
         upload_to='post_images/',
         blank=True,
         null=True,
     )
+
+    class Meta:
+        permissions = [
+            ('can_approve_posts', 'Can approve posts')
+        ]
 
 
 class Comment(models.Model):
