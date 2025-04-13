@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -54,7 +55,7 @@ class DashBoardView(ListView, FormView):
 #     return render(request, 'posts/dashboard.html', context)
 
 
-class AddPostView(CreateView):
+class AddPostView(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'posts/add_post.html'
     form_class = PostCreateForm
