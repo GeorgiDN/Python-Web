@@ -25,7 +25,7 @@ class DashBoardView(ListView, FormView):
     context_object_name = 'posts'
     form_class = SearchForm
     success_url = reverse_lazy('dash')
-    paginate_by = 2
+    paginate_by = 5
 
     def get_queryset(self):
         queryset = self.model.objects.all()
