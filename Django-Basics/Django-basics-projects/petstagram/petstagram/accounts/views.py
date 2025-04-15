@@ -1,17 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
+from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from petstagram.accounts.forms import AppUserCreationForm, ProfileEditForm
 from django.contrib.auth import get_user_model, login
-
 from petstagram.accounts.models import Profile
-
 UserModel = get_user_model()
-
-# def login(request):
-#     return render(request, 'accounts/login-page.html')
 
 
 class AppUserLoginView(LoginView):
@@ -31,12 +27,14 @@ class AppUserRegisterView(CreateView):
         return response
 
 
-def profile_delete(request, pk: int):
-    return render(request, 'accounts/profile-delete-page.html')
+class ProfileDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Profile
+    template_name = 'accounts/profile-delete-page.html'
+    success_url = reverse_lazy("login")
 
-
-def profile_details(request, pk: int):
-    return render(request, 'accounts/profile-details-page.html')
+    def test_func(self):
+        profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        return self.request.user == profile.user
 
 
 class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -55,3 +53,17 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 "pk": self.object.pk
             }
         )
+
+
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = UserModel
+    template_name = "accounts/profile-details-page.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        photos_with_likes = self.object.photo_set.annotate(likes_count=Count("photo_likes"))
+
+        context["total_likes_count"] = sum(photo.likes_count for photo in photos_with_likes)
+        context["total_pets_count"] = self.object.pet_set.count()
+        context["total_photos_count"] = self.object.photo_set.count()
+        return context
