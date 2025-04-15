@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.urls import reverse_lazy
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -145,3 +147,6 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'accounts.AppUser'
+# LOGIN_REDIRECT_URL = reverse_lazy('home')
+# LOGOUT_REDIRECT_URL = reverse_lazy('login')
