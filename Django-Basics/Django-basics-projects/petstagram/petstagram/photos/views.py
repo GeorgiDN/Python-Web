@@ -13,6 +13,11 @@ class PhotoAddPage(CreateView):
     form_class = PhotoAddForm
     success_url = reverse_lazy('home')
 
+    def form_valid(self, form):
+        photo = form.save(commit=False)
+        photo.user = self.request.user
+        return super().form_valid(form)
+
 
 class PhotoEditPage(UpdateView):
     model = Photo
