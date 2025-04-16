@@ -64,7 +64,8 @@
                 <span class="heart">
                      <a href="{% url 'like' photo.pk %}">
                          <!-- if user has liked the photo -->
-                         {% if photo.photo_likes.all %}
+                        {% if photo.photo_likes.all %}
+{#                         {% if photo.photo_likes.has_liked %}#}
                              <i class="fa-solid fa-heart" style="color: #ed4040;"></i>
 
                              <!-- else -->
@@ -114,8 +115,12 @@
                                 <div class="profilepic">
                                     <div class="profile_img">
                                         <div class="image">
+                                            {% if comment.user.profile.profile_picture %}
+                                                <img src="{{ comment.user.profile.profile_picture }}" alt="profile-img">
                                             <!-- User Profile Image -->
+                                            {% else %}
                                             <img src="{% static 'images/person.png' %}" alt="img8">
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>

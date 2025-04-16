@@ -1,5 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from petstagram.common.forms import CommentForm
@@ -28,6 +28,18 @@ class PetAddPage(LoginRequiredMixin, CreateView):
         )
 
 
+# class PetDetailsPage(LoginRequiredMixin, DetailView):
+#     model = Pet
+#     template_name = 'pets/pet-details-page.html'
+#     slug_url_kwarg = 'pet_slug'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['all_photos'] = context['pet'].photo_set.all()
+#         context['comment_form'] = CommentForm()
+#         return context
+
+
 class PetDetailsPage(LoginRequiredMixin, DetailView):
     model = Pet
     template_name = 'pets/pet-details-page.html'
@@ -37,14 +49,25 @@ class PetDetailsPage(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['all_photos'] = context['pet'].photo_set.all()
         context['comment_form'] = CommentForm()
+
+        all_photos = context['pet'].photo_set.all()
+
+        for photo in all_photos:
+            photo.has_liked = photo.photo_likes.filter(user=self.request.user).exists()
+        context['all_photos'] = all_photos
+
         return context
 
 
-class PetEditPage(LoginRequiredMixin, UpdateView):
+class PetEditPage(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Pet
     form_class = PetEditForm
     template_name = 'pets/pet-edit-page.html'
     slug_url_kwarg = 'pet_slug'
+
+    def test_func(self):
+        pet = get_object_or_404(Pet, slug=self.kwargs["pet_slug"])
+        return self.request.user == pet.user
 
     def get_success_url(self):
         result = reverse_lazy(
@@ -56,12 +79,23 @@ class PetEditPage(LoginRequiredMixin, UpdateView):
         return result
 
 
-class PetDeletePage(LoginRequiredMixin, DeleteView):
+class PetDeletePage(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Pet
-    template_name = 'pets/pet-delete-page.html'
-    slug_url_kwarg = 'pet_slug'
+    template_name = "pets/pet-delete-page.html"
+    slug_url_kwarg = "pet_slug"
     form_class = PetDeleteForm
-    success_url = reverse_lazy('profile-details', kwargs={'pk': 1})
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "profile-details",
+            kwargs={
+                "pk": self.request.user.pk
+            }
+        )
+
+    def test_func(self):
+        pet = get_object_or_404(Pet, slug=self.kwargs["pet_slug"])
+        return self.request.user == pet.user
 
     def get_initial(self):
         return self.get_object().__dict__
@@ -71,8 +105,9 @@ class PetDeletePage(LoginRequiredMixin, DeleteView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update({
-            'data': self.get_initial()
+            "data": self.get_initial()
         })
+
         return kwargs
 
 

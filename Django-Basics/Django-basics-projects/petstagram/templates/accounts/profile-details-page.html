@@ -32,7 +32,7 @@
                         </a>
     
                         <!-- Link to Delete Profile Page -->
-                        <a href="">
+                        <a href="{% url 'profile-delete' request.user.pk %}">
                             <img
                                     class="bin-img"
                                     src="{% static 'images/icon-remove-22.jpg' %}"
