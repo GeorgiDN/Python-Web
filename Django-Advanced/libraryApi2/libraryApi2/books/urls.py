@@ -3,5 +3,6 @@ from django.urls import path
 from libraryApi2.books import views
 
 urlpatterns = [
-    path('', views.ListBooksView.as_view(), name='index'),
+    path('books/', views.ListBooksView.as_view(), name='books_list'),
+    path('book/<int:pk>/', views.BookViewSet.as_view(), name='book_viewset'),
 ]
