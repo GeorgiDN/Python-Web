@@ -42,10 +42,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'libraryApi2.books.apps.BooksConfig',
 
-    ''
     'rest_framework',  # pip install djangorestframework
-
+    'drf_spectacular', # for swagger
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Library',
+    'DESCRIPTION': 'Library project',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
