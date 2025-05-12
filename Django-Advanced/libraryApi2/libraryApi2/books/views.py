@@ -25,7 +25,7 @@ def list_books_view(request):
 
 
 class ListBooksView(APIView):
-
+    serializer_class = BookSerializer
     def get(self, request):
         books = Book.objects.all()
         serializer = BookSerializer(books, many=True)
@@ -43,6 +43,7 @@ class ListBooksView(APIView):
     request=BookSerializer,
     responses={201: BookSerializer, 400: BookSerializer}
 )
+
 class BookViewSet(APIView):
     @staticmethod
     def get_object(pk):
