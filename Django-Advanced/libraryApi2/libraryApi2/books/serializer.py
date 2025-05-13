@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from libraryApi2.books.models import Book, Author
+from libraryApi2.books.models import Book, Author, Publisher
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -45,3 +45,15 @@ class BookSerializer(serializers.ModelSerializer):
         book.author.set(all_authors)
 
         return book
+
+
+class PublisherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publisher
+        fields = "__all__"
+
+
+class PublisherHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Publisher
+        fields = '__all__'

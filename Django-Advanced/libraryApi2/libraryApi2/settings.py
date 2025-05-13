@@ -53,7 +53,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'libraryApi2.books.apps.BooksConfig',
+    'libraryApi2.accounts.apps.AccountsConfig',
 
+    'rest_framework.authtoken',
     'rest_framework',  # pip install djangorestframework
     'drf_spectacular', # for swagger
     'corsheaders',  # pip install django-cors-headers
