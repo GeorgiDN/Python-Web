@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from libraryApi2.books.models import Book, Publisher
+from libraryApi2.books.permissions import IsBookOwner
 from libraryApi2.books.serializer import BookSerializer, PublisherHyperlinkSerializer, PublisherSerializer, \
     BookSimpleSerializer
 
@@ -32,7 +33,7 @@ def list_books_view(request):
 class ListBooksView(ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsBookOwner]
     authentication_classes = [TokenAuthentication]
 
 
