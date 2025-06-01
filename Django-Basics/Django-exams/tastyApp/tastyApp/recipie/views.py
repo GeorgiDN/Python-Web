@@ -1,6 +1,10 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 from tastyApp.core.utils import get_profile, get_recipies
+from tastyApp.recipie.forms import RecipieCreateForm
+from tastyApp.recipie.models import Recipie
 
 
 def home_page(request):
@@ -19,3 +23,21 @@ def catalogue(request):
         'recipies_number': recipies_number,
     }
     return render(request, 'catalogue.html', context)
+
+
+class CreateRecipeView(CreateView):
+    model = Recipie
+    form_class = RecipieCreateForm
+    template_name = 'recipies/create-recipe.html'
+    success_url = reverse_lazy('catalogue')
+
+    def form_valid(self, form):
+        profile = get_profile()
+        form.instance.author = profile
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = get_profile()
+        return context
+
