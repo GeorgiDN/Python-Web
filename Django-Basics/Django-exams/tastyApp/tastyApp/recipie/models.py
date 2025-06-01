@@ -1,10 +1,10 @@
-from cProfile import Profile
-
 from django.core.validators import MinLengthValidator
 from django.db import models
 
+from tastyApp.accounts.models import Profile
 
-class Recipe(models.Model):
+
+class Recipie(models.Model):
     CUISINE_CHOICES = [
         ('French', 'French'),
         ('Chinese', 'Chinese'),

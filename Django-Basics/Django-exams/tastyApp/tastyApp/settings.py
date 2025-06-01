@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'tastyApp.tastyApp.accounts.apps.AccountsConfig',
-    'tastyApp.tastyApp.recipie.apps.RecipieConfig',
+    'tastyApp.accounts.apps.AccountsConfig',
+    'tastyApp.recipie.apps.RecipieConfig',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +89,6 @@ DATABASES = {
         'PORT': os.environ["DB_PORT"],
     }
 }
-
 
 
 # Password validation
