@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from tastyApp.core.utils import get_profile, get_recipies
 from tastyApp.recipie.forms import RecipieCreateForm
@@ -41,3 +41,13 @@ class CreateRecipeView(CreateView):
         context['profile'] = get_profile()
         return context
 
+
+class RecipieDetailView(DetailView):
+    model = Recipie
+    template_name = 'recipies/details-recipe.html'
+    context_object_name = 'recipe'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = get_profile()
+        return context

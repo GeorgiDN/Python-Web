@@ -37,7 +37,7 @@
             <h1>{{ recipie.instructions }}</h1>
             <div class="details-buttons">
                 <!-- recipe details button -->
-                <a href="" class="details-btn">Details</a>
+                <a href="{% url 'recipe-detail' recipie.pk %}" class="details-btn">Details</a>
             </div>
         </div>
         {% endfor %}
