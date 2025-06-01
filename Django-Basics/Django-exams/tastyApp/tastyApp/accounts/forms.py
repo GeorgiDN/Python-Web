@@ -16,3 +16,16 @@ class ProfileCreateForm(forms.ModelForm):
             'last_name': 'Last Name',
             'chef': 'Chef',
         }
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ('author',)
+
+
+class ProfileDeleteForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ()
