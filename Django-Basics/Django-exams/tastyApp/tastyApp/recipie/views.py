@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from tastyApp.core.utils import get_profile, get_recipies
-from tastyApp.recipie.forms import RecipieCreateForm, RecipeEditForm
+from tastyApp.recipie.forms import RecipieCreateForm, RecipeEditForm, RecipeDeleteForm
 from tastyApp.recipie.models import Recipie
 
 
@@ -58,6 +58,21 @@ class RecipeEditView(UpdateView):
     form_class = RecipeEditForm
     template_name = 'recipies/edit-recipe.html'
     success_url = reverse_lazy('catalogue')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = get_profile()
+        return context
+
+
+class RecipeDeleteView(DeleteView):
+    model = Recipie
+    form_class = RecipeDeleteForm
+    template_name = 'recipies/delete-recipe.html'
+    success_url = reverse_lazy('catalogue')
+
+    def get_initial(self):
+        return self.get_object().__dict__
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

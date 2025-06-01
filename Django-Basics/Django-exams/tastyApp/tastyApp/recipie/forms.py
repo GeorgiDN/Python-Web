@@ -28,3 +28,19 @@ class RecipeEditForm(forms.ModelForm):
     class Meta:
         model = Recipie
         exclude = ['author']
+
+
+class RecipeDeleteForm(forms.ModelForm):
+    class Meta:
+        model = Recipie
+        exclude = ['author']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            field.disabled = True
+            field.widget.attrs['readonly'] = True
+
+    def clean(self):
+        return self.cleaned_data
