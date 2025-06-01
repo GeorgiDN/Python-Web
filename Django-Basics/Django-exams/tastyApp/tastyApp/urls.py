@@ -22,6 +22,6 @@ from tastyApp.recipie import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_page, name='home_page'),
-    # path('profile/', include('tastyApp.accounts.urls')),
+    path('profile/', include('tastyApp.accounts.urls')),
     path('recipie/', include('tastyApp.recipie.urls')),
 ]
