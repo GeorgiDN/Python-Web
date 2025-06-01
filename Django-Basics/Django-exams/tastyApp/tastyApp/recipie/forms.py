@@ -23,3 +23,8 @@ class RecipieCreateForm(forms.ModelForm):
         self.fields['ingredients'].widget.attrs['placeholder'] = "ingredient1, ingredient2, ..."
         self.fields['instructions'].widget.attrs['placeholder'] = "Enter detailed instructions here..."
         self.fields['image_url'].widget.attrs['placeholder'] = "Optional image URL here..."
+
+class RecipeEditForm(forms.ModelForm):
+    class Meta:
+        model = Recipie
+        exclude = ['author']
