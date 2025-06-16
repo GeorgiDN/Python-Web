@@ -25,4 +25,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('author/', include('furryFunniesApp.accounts.urls')),
+    path('posts/', include('furryFunniesApp.posts.urls')),
 ]

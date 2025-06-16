@@ -9,10 +9,11 @@
 
         <section id="dashboard">
         <!-- Display a div with information about each post (if any) -->
-
+        
+        {% for post in posts %}
         <!-- first post -->
         <div class="post">
-            {% for post in posts %}
+
                 <!-- post image -->
                 <img src="{{ post.image }}" alt="post image">
                 <!-- post title -->
