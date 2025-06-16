@@ -21,7 +21,7 @@
                 <!-- post content -->
                 <p class="description">{{ post.content|truncatewords:3 }}</p>
                 <!-- post details button -->
-                <a class="details-btn" href="#">See More</a>
+                <a class="details-btn" href="{% url 'post-details' post.pk %}">See More</a>
                 </div>
             {% endfor %}
     {% else %}

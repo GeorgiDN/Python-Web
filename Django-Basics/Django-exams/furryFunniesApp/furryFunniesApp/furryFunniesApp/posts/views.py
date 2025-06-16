@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from furryFunniesApp.core.utils import get_profile, get_posts
 from furryFunniesApp.posts.forms import PostCreateForm
@@ -35,6 +35,17 @@ class PostCreateView(CreateView):
         profile = get_profile()
         form.instance.author = profile
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = get_profile()
+        return context
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'posts/details-post.html'
+    context_object_name = 'post'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
