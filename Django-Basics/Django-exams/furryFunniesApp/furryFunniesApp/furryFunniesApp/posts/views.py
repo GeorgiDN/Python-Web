@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 
 from furryFunniesApp.core.utils import get_profile, get_posts
-from furryFunniesApp.posts.forms import PostCreateForm
+from furryFunniesApp.posts.forms import PostCreateForm, PostEditForm
 from furryFunniesApp.posts.models import Post
 
 
@@ -47,7 +47,10 @@ class PostDetailView(DetailView):
     template_name = 'posts/details-post.html'
     context_object_name = 'post'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['profile'] = get_profile()
-        return context
+
+class PostEditView(UpdateView):
+    model = Post
+    form_class = PostEditForm
+    template_name = 'posts/edit-post.html'
+    success_url = reverse_lazy('dashboard')
+

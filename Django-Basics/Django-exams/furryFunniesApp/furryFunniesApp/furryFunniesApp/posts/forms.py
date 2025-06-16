@@ -21,3 +21,9 @@ class PostCreateForm(forms.ModelForm):
         self.fields['title'].widget.attrs['placeholder'] = "Put an attractive and unique title..."
         self.fields['image'].widget.attrs['placeholder'] = "Share your funniest furry photo URL!"
         self.fields['content'].widget.attrs['placeholder'] = "Share some interesting facts about your adorable pets..."
+
+
+class PostEditForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'image', 'content']

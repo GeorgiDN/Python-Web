@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-	
-    
+
+
 <!-- Post Details -->
 <section id="details">
     <div id="details-wrapper">
@@ -22,7 +22,7 @@
 
             <!--Edit and Delete buttons -->
             <div id="action-buttons">
-                <a href="#" id="edit-btn">Edit</a>
+                <a href="{% url 'post-edit' post.pk %}" id="edit-btn">Edit</a>
                 <a href="#" id="delete-btn">Delete</a>
             </div>
         </div>
