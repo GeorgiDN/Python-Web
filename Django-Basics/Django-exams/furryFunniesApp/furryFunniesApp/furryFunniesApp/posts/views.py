@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from furryFunniesApp.core.utils import get_profile, get_posts
-from furryFunniesApp.posts.forms import PostCreateForm, PostEditForm
+from furryFunniesApp.posts.forms import PostCreateForm, PostEditForm, PostDeleteForm
 from furryFunniesApp.posts.models import Post
 
 
@@ -54,3 +54,12 @@ class PostEditView(UpdateView):
     template_name = 'posts/edit-post.html'
     success_url = reverse_lazy('dashboard')
 
+
+class PostDeleteView(DeleteView):
+    model = Post
+    form_class = PostDeleteForm
+    template_name = 'posts/delete-post.html'
+    success_url = reverse_lazy('dashboard')
+
+    def get_initial(self):
+        return self.get_object().__dict__

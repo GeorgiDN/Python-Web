@@ -27,3 +27,19 @@ class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'image', 'content']
+
+
+class PostDeleteForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'image', 'content']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            field.disabled = True
+            field.widget.attrs['readonly'] = True
+
+    def clean(self):
+        return self.cleaned_data
