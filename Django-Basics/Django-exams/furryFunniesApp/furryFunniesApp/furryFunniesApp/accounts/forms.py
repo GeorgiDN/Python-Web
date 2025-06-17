@@ -26,3 +26,9 @@ class ProfileCreateForm(forms.ModelForm):
         self.fields['passcode'].widget = PasswordInput()
         self.fields['passcode'].widget.attrs['placeholder'] = "Enter 6 digits..."
         self.fields['pets_number'].widget.attrs['placeholder'] = "Enter the number of your pets..."
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        exclude = ('passcode',)
