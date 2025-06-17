@@ -32,3 +32,10 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Author
         exclude = ('passcode',)
+
+
+class ProfileDeleteForm(forms.ModelForm):
+
+    class Meta:
+        model = Author
+        fields = ()
