@@ -24,7 +24,7 @@
             <div class="user">
                 <a href="{% url 'dashboard' %}">Dashboard</a>
                 <a href="{% url 'create-post' %}">New Post</a>
-                <a href="#">Author's Profile</a>
+                <a href="{% url 'profile-details' %}">Author's Profile</a>
             </div>
             {% else %}
             <!-- If author's profile has NOT been created -->
